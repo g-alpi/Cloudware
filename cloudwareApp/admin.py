@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Directory, File, ShareFile, ShareDirectory
+from .models import *
 # Register your models here.
 
 class ShareFileAdmin (admin.ModelAdmin):
@@ -13,6 +13,6 @@ class FileAdmin (admin.ModelAdmin):
 
 admin.site.register(Directory)
 admin.site.register(File, FileAdmin)
-admin.site.register(ShareFile, ShareFileAdmin)
-admin.site.register(ShareDirectory, ShareDirectoryAdmin)
+admin.site.register(SharedFile, ShareFileAdmin)
+admin.site.register(SharedDirectory, ShareDirectoryAdmin)
 
