@@ -12,6 +12,7 @@ class Directory (models.Model):
 
 class File (models.Model):
     name = models.CharField(max_length=100)
+    uploadedFile = models.FileField(upload_to = "Uploaded Files/")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
     father = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
