@@ -38,6 +38,7 @@
 </head>
 <body>
     <form action="{% url 'cloud:upload' %}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" value="" name="father">
         <input type="file" name="uploaded_file">
         {% csrf_token %}
         <input type="submit" value="Upload">

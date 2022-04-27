@@ -20,6 +20,7 @@ def upload(request):
 
     documents = File.objects.all()
 
-    return render(request, "upload.html", context = {
+    return render(request, "upload_file.html", context = {
         "files": documents
     })
+
