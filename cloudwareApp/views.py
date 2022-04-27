@@ -9,14 +9,12 @@ def index(request):
 def upload(request):
     if request.method == "POST":
         # Fetching the form data
-        fileName = request.POST["fileName"]
         uploadedFile = request.FILES["uploadedFile"]
 
         # Saving the information in the database
         document = File(
-            name = fileName,
             uploadedFile = uploadedFile,
-            owner = request.user
+            # owner = request.user
         )
         document.save()
 

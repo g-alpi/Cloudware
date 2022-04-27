@@ -38,7 +38,6 @@
 </head>
 <body>
     <form action="{% url 'cloud:upload' %}" method="POST" enctype="multipart/form-data">
-        <input type="text" name="fileName" placeholder="Enter a name">
         <input type="file" name="uploadedFile">
         {% csrf_token %}
         <input type="submit" value="Upload">
