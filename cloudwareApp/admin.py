@@ -9,10 +9,9 @@ class ShareDirectoryAdmin (admin.ModelAdmin):
     list_display = ('directoy_id', 'user_id')
 
 class FileAdmin (admin.ModelAdmin):
-    list_display = ('owner', 'upload_time', 'father')
+    list_display = ('uploaded_file', 'owner', 'upload_time', 'father')
 
 admin.site.register(Directory)
 admin.site.register(File, FileAdmin)
 admin.site.register(SharedFile, ShareFileAdmin)
 admin.site.register(SharedDirectory, ShareDirectoryAdmin)
-
