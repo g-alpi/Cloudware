@@ -26,7 +26,7 @@ class SharedFile(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.file_id.name + ' -> ' + self.user_id.username
+        return self.file_id.uploaded_file + ' -> ' + self.user_id.username
 
 class SharedDirectory (models.Model):
     directoy_id = models.ForeignKey(Directory, on_delete=models.CASCADE)

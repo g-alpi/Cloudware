@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 import os
 import django_heroku
@@ -125,4 +125,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = '/cloudwareAPP/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'cloudwareAPP','media')
 django_heroku.settings(locals())

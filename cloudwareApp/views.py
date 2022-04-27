@@ -1,13 +1,33 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import Http404, HttpResponse, HttpResponseNotFound
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404, HttpResponse
+from django.contrib.auth.decorators import login_required, require_POST
 from .models import *
 import os
 import mimetypes
 
-# Create your views here.
 def index(request):
     return HttpResponse("Hello, world. You're at the cloudwareApp index.")
+
+
+def upload(request):
+    documents = File.objects.all()
+    return render(request, "upload_file.html", context = {
+        "files": documents
+    })
+
+@require_POST
+def save_file(request):
+    uploaded_file = request.FILES["uploaded_file"]
+    new_file(uploaded_file, request)
+    return redirect("cloud:upload")
+
+def new_file(uploaded_file, request):
+    document = File(
+            uploaded_file = uploaded_file,
+            owner = request.user
+        )
+    document.save()
+
 
 @login_required
 def downloadFile(request, fileId):
