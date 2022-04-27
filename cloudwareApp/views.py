@@ -9,12 +9,12 @@ def index(request):
 def upload(request):
     if request.method == "POST":
         # Fetching the form data
-        uploadedFile = request.FILES["uploadedFile"]
+        uploaded_file = request.FILES["uploaded_file"]
 
         # Saving the information in the database
         document = File(
-            uploadedFile = uploadedFile,
-            # owner = request.user
+            uploaded_file = uploaded_file,
+            owner = request.user
         )
         document.save()
 
@@ -23,4 +23,3 @@ def upload(request):
     return render(request, "upload.html", context = {
         "files": documents
     })
-    

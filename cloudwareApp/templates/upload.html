@@ -38,7 +38,7 @@
 </head>
 <body>
     <form action="{% url 'cloud:upload' %}" method="POST" enctype="multipart/form-data">
-        <input type="file" name="uploadedFile">
+        <input type="file" name="uploaded_file">
         {% csrf_token %}
         <input type="submit" value="Upload">
     </form>
@@ -52,8 +52,8 @@
         {% for file in files %}
             <tr>
                 <td>{{ file.id }}</td>
-                <td>{{ file.name }}</td>
-                <td>{{ file.uploadedFile.url }}</td>
+                <td>{{ file.uploaded_file.name }}</td>
+                <td>{{ file.uploaded_file.url }}</td>
                 <td>{{ file.upload_time }}</td>
             </tr>
         {% endfor %}
