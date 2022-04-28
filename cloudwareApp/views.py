@@ -1,9 +1,13 @@
+from operator import truediv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
-from django.contrib.auth.decorators import login_required, require_POST
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from .models import *
 import os
 import mimetypes
+import re
 
 def index(request):
     return HttpResponse("Hello, world. You're at the cloudwareApp index.")
@@ -57,6 +61,34 @@ def getFileResponse(absoluteFilePath, fileName):
     response = HttpResponse(file, content_type=mimeType)
     response['Content-Disposition'] = f"attachment; filename={fileName}"
     return response
+
+
+@csrf_exempt
+def shareFile(request, fileId):
+    fileToShare = File.objects.get(pk = fileId)
+    userEmail = request.user.mail
+    emails = re.split(' , |, |,', request.POST["mails"])
+    emailsRejected = []
+    for email in emails:
+        if (not validateEmail(email) or email == userEmail):
+            emailsRejected.append(email)
+        else:
+            try:
+                newShareFile(email, fileToShare)
+            except:
+                emailsRejected.append(email)
+    return redirect("cloud:upload")
+
+def validateEmail(possibleEmail):
+    regexToValidateEmail = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
+    if (re.search(regexToValidateEmail, possibleEmail)):
+        return True
+    return False
+
+def newShareFile(userEmail, fileToShare):
+    user = User.objects.get(email = userEmail)
+    newShareFile = SharedFile(file = fileToShare, user = user)
+    newShareFile.save()
 
 
 def page_not_found(request, exception):

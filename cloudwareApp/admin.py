@@ -3,10 +3,10 @@ from .models import *
 # Register your models here.
 
 class ShareFileAdmin (admin.ModelAdmin):
-    list_display = ('file_id', 'user_id')
+    list_display = ('file', 'user')
 
 class ShareDirectoryAdmin (admin.ModelAdmin):
-    list_display = ('directoy_id', 'user_id')
+    list_display = ('directory', 'user')
 
 class FileAdmin (admin.ModelAdmin):
     list_display = ('uploaded_file', 'owner', 'upload_time', 'father')
