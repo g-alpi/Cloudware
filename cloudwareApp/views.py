@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
-from django.contrib.auth.decorators import login_required, require_POST
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST 
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+from django.utils import timezone
 from .models import *
+
 import os
 import mimetypes
 
 def index(request):
     return HttpResponse("Hello, world. You're at the cloudwareApp index.")
 
-
+@login_required
 def upload(request):
     documents = File.objects.all()
     return render(request, "upload_file.html", context = {
@@ -58,6 +63,25 @@ def getFileResponse(absoluteFilePath, fileName):
     response['Content-Disposition'] = f"attachment; filename={fileName}"
     return response
 
+@require_POST
+def delete_file(request):
+    file_id = request.POST['id']
+    file = authorizeFileAccess(request.user, file_id)
+    file.delete()
+    return redirect("cloud:upload")
+
+@require_POST
+def edit_file(request):
+    file_id = request.POST['id']
+    new_file = request.POST['file']
+    file = authorizeFileAccess(request.user, file_id)
+    file.uploaded_file = new_file
+    file.upload_time = timezone.now()
+    file.save()
+    return redirect("cloud:upload")
+
 
 def page_not_found(request, exception):
     return render(request, '404.html', status = 404)
+
+

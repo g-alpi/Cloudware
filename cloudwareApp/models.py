@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Directory (models.Model):
     name = models.CharField(max_length=50)
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
@@ -20,6 +21,7 @@ class File (models.Model):
     father = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return str(self.uploaded_file)
+
     
 class SharedFile(models.Model):
     file_id = models.ForeignKey(File, on_delete=models.CASCADE)
