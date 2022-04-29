@@ -9,8 +9,8 @@ import os
 import mimetypes
 import re
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the cloudwareApp index.")
+def landing_page(request):
+        return render(request, 'landing_page.html')
 
 
 def upload(request):
@@ -89,6 +89,14 @@ def newShareFile(userEmail, fileToShare):
     user = User.objects.get(email = userEmail)
     newShareFile = SharedFile(file = fileToShare, user = user)
     newShareFile.save()
+
+
+def login(request):
+    return render(request, 'login.html')
+
+
+def signup(request):
+    return render(request, 'signup.html')
 
 
 def page_not_found(request, exception):
