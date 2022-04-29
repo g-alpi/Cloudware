@@ -1,0 +1,41 @@
+:root
+{
+    --main-color: #094C93;
+    --light-color: #ffffff;
+    --hover-light-color: #EAE1C8;
+}
+body
+{
+    font-family: 'Montserrat', sans-serif;
+}
+
+header, footer
+{
+    min-height: 100px;
+    background-color: var(--main-color);
+    color: var(--light-color)
+}
+header a, footer a
+{
+    color: var(--light-color) !important;
+    transition: color 500ms;
+}
+header a:hover, footer a:hover
+{
+    color: var(--hover-light-color) !important;
+}
+.circle-logo 
+{
+    padding: 7px;
+    border-radius: 100%;
+    background-color: var(--light-color);
+    transition: background-color 500ms;
+}
+header a:hover .circle-logo
+{
+    background-color: var(--hover-light-color);
+}
+.cloudware-logo-text
+{
+    font-family: 'Revalia', cursive;
+}
