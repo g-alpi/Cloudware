@@ -17,10 +17,7 @@ class Directory (models.Model):
 
 
 def content_file_name(instance, filename):
-    # if instance.parent == None:
-    #     return os.path.join( instance.owner.username, filename)
-    # else:
-        
+
         return os.path.join( instance.owner.username, filename)
 
 class File (models.Model):
