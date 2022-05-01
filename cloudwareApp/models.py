@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import os
 
 
 
@@ -18,9 +19,11 @@ class File (models.Model):
     uploaded_file = models.FileField(upload_to = "uploaded_files/")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
-    father = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return str(self.uploaded_file)
+    def filename(self):
+        return os.path.basename(self.uploaded_file.name)
 
     
 class SharedFile(models.Model):
