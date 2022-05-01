@@ -1,7 +1,7 @@
 $(document).ready(function () {
     directory_redidect();
     create_directory();
-    upload_file();
+    upload_file2();
 });
 
 function directory_redidect(){
@@ -23,7 +23,7 @@ function create_directory() {
     $('#new_directory').click(function (e) { 
         e.preventDefault(); 
         let path = $(this).parent().parent().children().last();
-        path.after('<td><input id="new_file"type="text" placeholder="New directory"></td>');
+        path.after('<input id="new_file"type="text" placeholder="New directory">');
         $(this).after('<button class="btn btn-success">Save</button>');
         $('.btn').click(function (e) { 
             create_directory_call();
@@ -51,7 +51,7 @@ function upload_file(){
     $('#upload_file').click(function (e) { 
         e.preventDefault(); 
         let path = $(this).parent().parent().children().last();
-        path.after('<td><input id="new_file"type="file" placeholder="New file"></td>');
+        path.after('<input id="new_file"type="file" placeholder="New file">');
         $(this).after('<button class="btn btn-success">Save</button>');
         $('.btn').click(function (e) { 
             upload_file_call();
@@ -75,5 +75,15 @@ function upload_file_call(){
         success: function(response){
             // window.location.reload();
         }
+    });
+}
+
+
+function upload_file2(){
+    $('#upload_file').click(function (e) { 
+        e.preventDefault(); 
+        let path = $(this).parent().parent().children().last();
+        path.after('<form action="localhost:8000/upload_file"><input id="new_file"type="file" placeholder="New file"><input type="submit"></form>');
+    ;
     });
 }

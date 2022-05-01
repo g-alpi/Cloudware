@@ -25,21 +25,24 @@ def upload(request):
 @require_POST
 @csrf_exempt
 def save_file(request):
-    uploaded_file = request.POST #request.FILES.get('uploaded_file')
-    print(uploaded_file.get('file'))
-    print(uploaded_file.get('parent_id'))
-    print(uploaded_file)
-    print(uploaded_file)
-    print(uploaded_file)
-    # new_file(uploaded_file, request)
+    uploaded_file = request.FILES.get('uploaded_file')
+    new_file(uploaded_file, request)
     return redirect("cloud:upload")
-
-def new_file(uploaded_file, request):
+@require_POST
+@csrf_exempt
+def save_file_parent(request):
+    parent = request.POST.get('parent')
+    uploaded_file = request.FILES.get('uploaded_file')
+    new_file(uploaded_file, request)
+    return redirect("cloud:upload")
+def new_file(uploaded_file, request,parent = None):  
     document = File(
             uploaded_file = uploaded_file,
-            owner = request.user
+            owner = request.user,
+            parent = parent
         )
     document.save()
+
 
 
 @login_required

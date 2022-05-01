@@ -15,8 +15,16 @@ class Directory (models.Model):
     def __str__(self):
         return self.name
 
+
+def content_file_name(instance, filename):
+    # if instance.parent == None:
+    #     return os.path.join( instance.owner.username, filename)
+    # else:
+        
+        return os.path.join( instance.owner.username, filename)
+
 class File (models.Model):
-    uploaded_file = models.FileField(upload_to = "uploaded_files/")
+    uploaded_file = models.FileField(upload_to=content_file_name)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
