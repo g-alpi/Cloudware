@@ -11,6 +11,10 @@ body
     font-family: 'Montserrat', sans-serif;
 }
 
+.bg-primary-color {
+    background-color: var(--main-color) !important;
+}
+
 a 
 {
     color: var(--main-color);

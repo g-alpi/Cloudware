@@ -15,12 +15,24 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ user.get_username }}</a>
+                        <ul class="dropdown-menu dropdown-menu-end bg-primary-color end-0">
+                            <li class="px-1"><a class="dropdown-item rounded" href="#">File Manager</a></li>
+                            <li class="px-1"><a class="dropdown-item rounded" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li class="px-1"><a class="dropdown-item rounded" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'cloud:signup' %}">Signup</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="{% url 'cloud:login' %}">Login</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
