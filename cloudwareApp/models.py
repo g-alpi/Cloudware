@@ -1,11 +1,12 @@
 from urllib import request
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.conf import settings
-
+from django.contrib.auth.models import AbstractUser
 import os
 
-
+class User (AbstractUser):
+    email = models.EmailField(max_length=254, unique=True)
 
 class Directory (models.Model):
     name = models.CharField(max_length=50)
