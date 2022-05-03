@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('uploaded_file', models.FileField(upload_to='uploaded_files/')),
                 ('upload_time', models.DateTimeField(auto_now_add=True)),
-                ('father', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cloudwareApp.directory')),
                 ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('parent', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cloudwareApp.directory')),
             ],
         ),
         migrations.CreateModel(
@@ -55,6 +55,7 @@ class Migration(migrations.Migration):
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
+                'verbose_name_plural': 'Shared Directories',
                 'unique_together': {('user', 'file')},
             },
         ),

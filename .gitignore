@@ -2,7 +2,7 @@
 /env/
 /venv/
 /static/*
-/media/*
+*/media/*
 .env
 db.sqlite3
 .coverage

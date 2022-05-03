@@ -1,5 +1,10 @@
+from urllib import request
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
+import os
+
 
 
 class Directory (models.Model):
@@ -13,13 +18,34 @@ class Directory (models.Model):
     def __str__(self):
         return self.name
 
+
+def file_path(file, filename):
+    if file.parent != None:
+        path = get_full_path(file.parent)
+        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, *path[::-1], filename)
+    
+    else:
+        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, filename)
+
+def get_full_path(directory):
+    path = []
+    actual_directory = directory
+
+    while actual_directory != None:
+        path.append(actual_directory.name)
+        actual_directory = actual_directory.parent
+    return path
+
 class File (models.Model):
-    uploaded_file = models.FileField(upload_to = "uploaded_files/")
+    uploaded_file = models.FileField(upload_to=file_path, max_length=500)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
-    father = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
+    parent = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return str(self.uploaded_file)
+    def filename(self):
+        return os.path.basename(self.uploaded_file.name)
+
     
 class SharedFile(models.Model):
     file = models.ForeignKey(File, on_delete=models.CASCADE)
