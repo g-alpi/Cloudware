@@ -32,9 +32,12 @@
         {% endfor %}
     </div>
     <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data">
-        <input type="hidden" value="{{directory.pk}}" name="parent_id">
+        
+        {% if directory %}
+            <input type="hidden" value="{{directory.pk}}" name="parent_id">
+        {% endif %}
+            
         <input type="file" name="uploaded_file">
-        {% csrf_token %}
         <input type="submit" value="Upload">
     </form>
     

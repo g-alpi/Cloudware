@@ -19,23 +19,25 @@ class Directory (models.Model):
         return self.name
 
 
-def content_file_name(file, filename):
-
+def file_path(file, filename):
     if file.parent != None:
-        path = []
-        actual_directory = file.parent
-    
-        while actual_directory != None:
-            path.append(actual_directory.name)
-            actual_directory = actual_directory.parent
+        path = get_full_path(file.parent)
         return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, *path[::-1], filename)
     
     else:
         return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, filename)
 
+def get_full_path(directory):
+    path = []
+    actual_directory = directory
+
+    while actual_directory != None:
+        path.append(actual_directory.name)
+        actual_directory = actual_directory.parent
+    return path
 
 class File (models.Model):
-    uploaded_file = models.FileField(upload_to=content_file_name)
+    uploaded_file = models.FileField(upload_to=file_path)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)

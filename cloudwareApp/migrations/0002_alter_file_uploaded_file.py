@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='file',
             name='uploaded_file',
-            field=models.FileField(upload_to=cloudwareApp.models.content_file_name),
+            field=models.FileField(upload_to=cloudwareApp.models.file_path),
         ),
     ]
