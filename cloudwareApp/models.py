@@ -1,5 +1,8 @@
+from urllib import request
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
 import os
 
 
@@ -16,9 +19,20 @@ class Directory (models.Model):
         return self.name
 
 
-def content_file_name(instance, filename):
+def content_file_name(file, filename):
 
-        return os.path.join( instance.owner.username, filename)
+    if file.parent != None:
+        path = []
+        actual_directory = file.parent
+    
+        while actual_directory != None:
+            path.append(actual_directory.name)
+            actual_directory = actual_directory.parent
+        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, *path[::-1], filename)
+    
+    else:
+        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, filename)
+
 
 class File (models.Model):
     uploaded_file = models.FileField(upload_to=content_file_name)

@@ -60,8 +60,8 @@ function upload_file(){
 }
 function upload_file_call(){
     let file = $('#new_file').prop('files')[0];
-    console.log(file);
     let parent_id = $('#actual_directory').val();
+    console.log(parent_id);
     $.ajax({
         url: "http://"+window.location.host+"/upload_file",
         type: "POST",

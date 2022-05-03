@@ -129,6 +129,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/cloudwareAPP/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'cloudwareAPP','media')
+MEDIA_URL = '/cloudwareApp/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'cloudwareApp','media')
 django_heroku.settings(locals())

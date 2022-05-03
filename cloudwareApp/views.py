@@ -1,5 +1,7 @@
+from hashlib import new
 from time import process_time_ns
 from unicodedata import name
+from webbrowser import get
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -24,21 +26,24 @@ def upload(request):
 
 @require_POST
 @csrf_exempt
-def save_file(request):
+def upload_file(request):
     uploaded_file = request.FILES.get('uploaded_file')
-    new_file(uploaded_file, request)
+    owner = get_object_or_404(User, pk = request.user.pk)
+    parent_id = request.POST.get('parent_id')
+
+    if parent_id == None:
+        save_new_file(uploaded_file, owner)
+        
+    else:
+        parent = get_object_or_404(Directory, pk = parent_id)
+        save_new_file(uploaded_file, owner,parent)
+        
     return redirect("cloud:upload")
-@require_POST
-@csrf_exempt
-def save_file_parent(request):
-    parent = request.POST.get('parent')
-    uploaded_file = request.FILES.get('uploaded_file')
-    new_file(uploaded_file, request)
-    return redirect("cloud:upload")
-def new_file(uploaded_file, request,parent = None):  
+
+def save_new_file(uploaded_file, owner,parent = None):  
     document = File(
             uploaded_file = uploaded_file,
-            owner = request.user,
+            owner = owner,
             parent = parent
         )
     document.save()
@@ -117,39 +122,60 @@ def get_directory (request, dir_id):
 @require_POST
 @csrf_exempt
 def create_directory(request):
-    user_dir = os.path.join(settings.MEDIA_ROOT,str(request.user))  
-    if not os.path.exists(user_dir):
-        os.mkdir(os.path.join(settings.MEDIA_ROOT,str(request.user)))   
+    check_media_folder()
+    check_upload_folder()
+    
+    user_dir = check_user_folder(request.user)  
     dir_name = request.POST.get('name')
-    ruta=[]
+    path=[]
+    
     if request.POST.get('parent_id') == None:
-        os.mkdir(os.path.join(user_dir, dir_name))
-        directory = Directory(
-            name = dir_name,
-            owner = request.user
-        )
+        new_directory(user_dir,dir_name,request.user)
+        
     else:
-        parent_dir = Directory.objects.get(pk = request.POST.get('parent_id'))
-        padre=parent_dir.pk
-        while True:
-            parent_dir = Directory.objects.get(pk =padre)
-            ruta.append(parent_dir.name)
-            if parent_dir.parent == None:
-                break
-            else:
-                padre=parent_dir.parent.pk
-                
-        for i in reversed(ruta):
-            user_dir = os.path.join(user_dir,i)
-        os.mkdir(os.path.join(user_dir, dir_name))
-        directory = Directory(
-        name = dir_name,
-        owner = request.user,
-        parent = Directory.objects.get(pk = request.POST.get('parent_id'))
-        )
-    directory.save()
+        
+        actual_directory = Directory.objects.get(pk = request.POST.get('parent_id'))
+        path = get_full_path(actual_directory)
+        user_dir = os.path.join(user_dir,*path[::-1]) 
+        new_directory(user_dir,dir_name,request.user,actual_directory)
+        
     return render(request, 'directory.html')
 
+def check_media_folder():
+    media_path = os.path.join(settings.BASE_DIR,'cloudwareApp', 'media')
+    if not os.path.exists(media_path):
+        os.mkdir(media_path)
+        
+def check_upload_folder():
+    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    if not os.path.exists(uploaded_files_path):
+        os.mkdir(uploaded_files_path)
+        
+def check_user_folder(user):
+    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    user_path = os.path.join(uploaded_files_path, str(user))
+    if not os.path.exists(user_path):
+        os.mkdir(user_path)
+    return user_path
+
+def get_full_path(directory):
+    path = []
+    actual_directory = directory
+    while  True:
+        path.append(actual_directory.name)
+        if actual_directory.parent == None:
+            break
+        actual_directory = actual_directory.parent
+    return path
+
+def new_directory(path_dir, dir_name, owner, parent = None):
+    os.mkdir(os.path.join(path_dir, dir_name))
+    directory = Directory(
+        name = dir_name,
+        owner = owner,
+        parent = parent
+    )
+    directory.save()
 
 
 def page_not_found(request, exception):
