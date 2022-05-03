@@ -10,7 +10,9 @@ class ShareDirectoryAdmin (admin.ModelAdmin):
     list_display = ('directory', 'user')
 
 class FileAdmin (admin.ModelAdmin):
-    list_display = ('pk','uploaded_file', 'owner', 'upload_time', 'parent')
+    list_display = ('filename', 'owner', 'upload_time', 'parent')
+    list_display_links = ('filename',)
+
     
 class DirectoryAdmin (admin.ModelAdmin):
     list_display = ('pk','name', 'owner', 'parent')
