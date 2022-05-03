@@ -41,11 +41,24 @@ def upload_file(request):
     parent_id = request.POST.get('parent_id')
 
     if parent_id == None:
-        save_new_file(uploaded_file, owner)
+        path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files', str(owner), uploaded_file.name)
+        
+        if len(path) <=500:
+            save_new_file(uploaded_file, owner)
+        else:
+            messages.error(request, 'The path is too long, revise your folders')
+            return redirect('cloud:directories')
         
     else:
         parent = get_object_or_404(Directory, pk = parent_id)
-        save_new_file(uploaded_file, owner,parent)
+        path = get_parents_path(parent)
+        full_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files', str(owner), *path[::-1], uploaded_file.name)
+        
+        if len(full_path) <= 500:
+            save_new_file(uploaded_file, owner, parent)
+        else:
+            messages.error(request, 'The path is too long, revise your folders')
+            return redirect('cloud:get_directory', parent_id)
         
     return redirect("cloud:upload")
 
@@ -144,7 +157,7 @@ def create_directory(request):
     else:
         
         actual_directory = Directory.objects.get(pk = request.POST.get('parent_id'))
-        path = get_full_path(actual_directory)
+        path = get_parents_path(actual_directory)
         user_dir = os.path.join(user_dir,*path[::-1]) 
         new_directory(user_dir,dir_name,request.user,actual_directory)
         
@@ -167,7 +180,7 @@ def check_user_directory(user):
         os.mkdir(user_path)
     return user_path
 
-def get_full_path(directory):
+def get_parents_path(directory):
     path = []
     actual_directory = directory
     while  True:
