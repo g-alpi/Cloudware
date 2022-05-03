@@ -122,10 +122,10 @@ def get_directory (request, dir_id):
 @require_POST
 @csrf_exempt
 def create_directory(request):
-    check_media_folder()
-    check_upload_folder()
+    check_media_directory()
+    check_upload_directory()
     
-    user_dir = check_user_folder(request.user)  
+    user_dir = check_user_directory(request.user)  
     dir_name = request.POST.get('name')
     path=[]
     
@@ -141,17 +141,17 @@ def create_directory(request):
         
     return render(request, 'directory.html')
 
-def check_media_folder():
+def check_media_directory():
     media_path = os.path.join(settings.BASE_DIR,'cloudwareApp', 'media')
     if not os.path.exists(media_path):
         os.mkdir(media_path)
         
-def check_upload_folder():
+def check_upload_directory():
     uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
     if not os.path.exists(uploaded_files_path):
         os.mkdir(uploaded_files_path)
         
-def check_user_folder(user):
+def check_user_directory(user):
     uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
     user_path = os.path.join(uploaded_files_path, str(user))
     if not os.path.exists(user_path):
