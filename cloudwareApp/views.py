@@ -2,7 +2,7 @@ from operator import truediv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -96,6 +96,10 @@ def newShareFile(userEmail, fileToShare):
 def login_view(request):
     return render(request, 'login.html')
 
+def logout_view(request):
+    logout(request)
+    return redirect('cloud:landing_page')
+
 @csrf_exempt
 def authenticate_view(request):
     username = request.POST['username']
@@ -103,14 +107,21 @@ def authenticate_view(request):
     user = authenticate(request, username = username, password = password)
     if user is not None:
         login(request, user)
-        return redirect("cloud:upload")
+        return redirect("cloud:cloudware_app")
     else:
         messages.error(request, 'Las credenciales no son correctas')
         return redirect('cloud:login')
 
-
 def signup(request):
     return render(request, 'signup.html')
+
+
+def cloudware_app(request):
+    return render(request, 'cloudware_app.html')
+
+
+def profile(request):
+    return render(request, 'profile.html')
 
 
 def page_not_found(request, exception):
