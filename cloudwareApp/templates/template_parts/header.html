@@ -1,0 +1,28 @@
+{% load static %}
+<header class="sticky-top fs-5">
+    <nav class="header navbar navbar-expand-lg">
+        <div class="container-fluid px-5">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="{% url 'cloud:landing_page' %}">
+                    <div class="circle-logo">
+                        <img src="{% static 'cloudwareApp\media\cloudware_logo.png' %}" alt="Cloudware Logo">
+                    </div>
+                    <p class="cloudware-logo-text mb-0 align-middle ms-3 fs-3">Cloudware</p>
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'cloud:signup' %}">Signup</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'cloud:login' %}">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

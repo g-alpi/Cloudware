@@ -48,18 +48,21 @@ class File (models.Model):
 
     
 class SharedFile(models.Model):
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    file = models.ForeignKey(File, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'file',)
 
     def __str__(self):
-        return self.file_id.uploaded_file + ' -> ' + self.user_id.username
+        return str(self.file.uploaded_file) + ' -> ' + self.user.username
 
 class SharedDirectory (models.Model):
-    directoy_id = models.ForeignKey(Directory, on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    directory = models.ForeignKey(Directory, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Shared Directories"
 
     def __str__(self):
-        return self.directoy_id.name + ' -> ' + self.user_id.username
+        return self.directoy.name + ' -> ' + self.user.username
