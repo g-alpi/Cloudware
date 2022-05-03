@@ -1,7 +1,6 @@
 $(document).ready(function () {
     directory_redidect();
     create_directory();
-    upload_file2();
 });
 
 function directory_redidect(){

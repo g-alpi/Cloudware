@@ -2,9 +2,7 @@
 /env/
 /venv/
 /static/*
-/media/*
-media/*
-media
+uploaded_files
 .env
 db.sqlite3
 .coverage
