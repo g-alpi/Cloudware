@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 import os
 
 class User (AbstractUser):
+    username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(max_length=254, unique=True)
 
 class Directory (models.Model):
