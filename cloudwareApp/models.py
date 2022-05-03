@@ -37,7 +37,7 @@ def get_full_path(directory):
     return path
 
 class File (models.Model):
-    uploaded_file = models.FileField(upload_to=file_path)
+    uploaded_file = models.FileField(upload_to=file_path, max_length=500)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     upload_time = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey(Directory, on_delete=models.CASCADE, null=True, blank=True)

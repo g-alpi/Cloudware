@@ -59,24 +59,3 @@ function edit_file(event){
         }
     });
 }
-
-function create_directory(){
-    $('#directory').click(function () { 
-        console.log('hola');
-        let name = $('#directory_name').val();
-        let csrftoken = $('[name=csrfmiddlewaretoken]').val();
-        $.ajax({
-            url: "http://"+window.location.host+"/create_directory",
-            type: "POST",
-            data: {
-                name: name,
-                csrfmiddlewaretoken: csrftoken
-            },
-            success: function(response){
-                console.log(response);
-                window.location.reload();
-            }
-        });
-                
-    });
-}
