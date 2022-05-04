@@ -5,6 +5,7 @@
     --secondary-color: #EAE1C8;
     --light-color: #ffffff;
     --hover-light-color: #EAE1C8;
+    --hover-upload-buttons-color: #429B46;
 }
 body
 {
@@ -102,4 +103,29 @@ header a:hover .circle-logo
     border-radius: 25px;
     height: 60px;
     padding-left: 50px;
+}
+
+.file-manager-background 
+{
+    background: var(--secondary-color);
+    background-size: cover;
+}
+
+.box-shadow{
+    box-shadow: 15px 10px 10px 5px rgba(0,0,0,0.25);
+}
+
+.upload-directory-icon-div:hover , .upload-file-icon-div:hover
+{
+    background-color: var(--hover-upload-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+}
+
+.file-icon
+{
+
+    width: 32px;
+    height: 32px;
 }
