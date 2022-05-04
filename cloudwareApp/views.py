@@ -1,3 +1,4 @@
+import email
 from hashlib import new
 from time import process_time_ns
 from unicodedata import name
@@ -17,6 +18,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+
 from .models import *
 
 import os
@@ -222,7 +224,6 @@ def logout_view(request):
     logout(request)
     return redirect('cloud:landing_page')
 
-@csrf_exempt
 def authenticate_view(request):
     username = request.POST['username']
     password = request.POST['password']
@@ -231,12 +232,69 @@ def authenticate_view(request):
         login(request, user)
         return redirect("cloud:cloudware_app")
     else:
-        messages.error(request, 'Las credenciales no son correctas')
+        messages.error(request, 'Incorrect credentials')
         return redirect('cloud:login')
 
 def signup(request):
-    return render(request, 'signup.html')
+    possibleErrors = ['nameError', 'emailError', 'passwordError']
+    signupErrors = checkSignupErrors(request, possibleErrors)
+    return render(request, 'signup.html', signupErrors)
 
+def checkSignupErrors(request, errorsToCheck):
+    signupErrors = {}
+    for error in errorsToCheck:
+        if error in request.session:
+            signupErrors[error] = request.session[error]
+            request.session.pop(error)
+    return signupErrors
+
+
+def validate_signup(request):
+    nameValidation = validateRegisterUsername(request)
+    emailValidation = validateRegisterEmail(request)
+    passwordValidation = validateRegisterPassword(request)
+    
+    if nameValidation or emailValidation or passwordValidation:
+        return redirect('cloud:signup')
+    newUser = User(username = request.POST['username'], email=request.POST['email'])
+    newUser.set_password(request.POST['password'])
+    newUser.save()
+    return redirect('cloud:login')
+
+def validateRegisterUsername(request):
+    usernameExist = User.objects.filter(username=request.POST['username']).exists()
+    if usernameExist:
+        request.session['nameError'] = 'Username already exists'
+        return True
+    if len(request.POST['username']) <= 0:
+        request.session['nameError'] = 'Username must contain at least 1 character'
+        return True
+    if not request.POST['username'].isalnum():
+        request.session['nameError'] = 'Username must contain alphanumeric characters only'
+        return True
+    return False
+
+def validateRegisterEmail(request):
+    emailExist = User.objects.filter(email=request.POST['email']).exists()
+    if emailExist:
+        request.session['emailError'] = 'Email already exists'
+        return True
+    if len(request.POST['email']) < 5:
+        request.session['emailError'] = 'Email must contain at least 5 characters'
+        return True
+    if not validateEmail(request.POST['email']):
+        request.session['emailError'] = 'Email don\'t have a valid format'
+        return True
+    return False
+
+def validateRegisterPassword(request):
+    if len(request.POST['password']) < 8:
+        request.session['passwordError'] = 'Password must contain at least 8 characters'
+        return True
+    if request.POST['password'] != request.POST['passwordConfirmation']:
+        request.session['passwordError'] = 'Password and password confirmation are not the same'
+        return True
+    return False
 
 def cloudware_app(request):
     return render(request, 'cloudware_app.html')
