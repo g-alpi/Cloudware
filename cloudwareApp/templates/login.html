@@ -24,6 +24,7 @@
         {% endfor %}
         {% endif %}
         <form action="{% url 'cloud:authenticate' %}" method="post" class="d-flex flex-column mb-5">
+            {% csrf_token %}
             <div class="image-form mb-4">
                 <span>
                     <label for="username">

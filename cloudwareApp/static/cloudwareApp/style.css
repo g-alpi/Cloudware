@@ -63,7 +63,12 @@ header a:hover .circle-logo
     background: url("media/login_background.jpg") no-repeat center center fixed;
     background-size: cover;
 }
-.login-form
+.signup-background 
+{
+    background: url("media/signup_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.login-form, .signup-form
 {
     width: 600px;
     height: 80%;
