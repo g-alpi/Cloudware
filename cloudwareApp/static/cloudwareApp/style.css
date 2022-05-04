@@ -105,14 +105,21 @@ header a:hover .circle-logo
     padding-left: 50px;
 }
 
+
+.box-shadow{
+    box-shadow: 15px 10px 10px 5px rgba(0,0,0,0.25);
+}
+
+
 .file-manager-background 
 {
     background: var(--secondary-color);
     background-size: cover;
 }
-
-.box-shadow{
-    box-shadow: 15px 10px 10px 5px rgba(0,0,0,0.25);
+.directory:focus > i
+{
+    color: var(--hover-light-color);
+    transition: color 400ms;
 }
 
 .upload-directory-icon-div:hover , .upload-file-icon-div:hover
@@ -129,3 +136,41 @@ header a:hover .circle-logo
     width: 32px;
     height: 32px;
 }
+
+.active
+{
+    border: var(--main-color) dotted 1px;
+}
+
+.upload-menu, .file-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+#new-file-form
+{
+    display: none;
+}
+
+/* Each of the items in the list */
+.upload-menu li, .file-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+    user-select: none;
+}
+
+.upload-menu li:hover , .file-menu li:hover {
+    background-color: #DEF;
+}
+

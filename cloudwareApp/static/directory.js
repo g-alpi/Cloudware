@@ -1,6 +1,96 @@
 $(document).ready(function () {
     directory_redidect();
-    create_directory();
+    $( ".directory" ).click(function() {
+        $('.directory').removeClass('active');
+        $( this ).toggleClass("active");
+
+    });
+    // ****************************************************
+    $(".box-shadow" ).bind("contextmenu", function (event) {
+    
+        // Avoid the real one
+        event.preventDefault();
+        
+        // Show contextmenu
+        $(".upload-menu").finish().toggle(100).
+        
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+
+    // If the document is clicked somewhere
+    $(document ).bind("mousedown", function (e) {
+        
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".upload-menu").length > 0) {
+            
+            // Hide it
+            $(".upload-menu").hide(100);
+        }
+    });
+
+
+    // If the menu element is clicked
+    $(".upload-menu li").click(function(){
+        
+        // This is the triggered action name
+        switch($(this).attr("data-action")) {
+            
+            // A case for each action. Your actions here
+            case "first": toogle_form(); break;
+            case "second": create_directory(); break;
+        }
+    
+        // Hide it AFTER the action was triggered
+        $(".upload-menu").hide(100);
+    });
+
+    // ****************************************************
+    $(".directory" ).bind("contextmenu", function (event) {
+        
+        // Avoid the real one
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Show contextmenu
+        $(".file-menu").finish().toggle(100).
+        
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
+
+    // If the document is clicked somewhere
+    $(document).bind("mousedown", function (e) {
+        
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".file-menu").length > 0) {
+            
+            // Hide it
+            $(".file-menu").hide(100);
+        }
+    });
+    // If the menu element is clicked
+    $(".file-menu li").click(function(){
+        
+        // This is the triggered action name
+        switch($(this).attr("data-action")) {
+            
+            // A case for each action. Your actions here
+            case "first": alert("first"); break;
+            case "second": alert("second"); break;
+        }
+
+        // Hide it AFTER the action was triggered
+        $(".file-menu").hide(100);
+    });
+
+
 });
 
 function directory_redidect(){
@@ -19,15 +109,13 @@ function directory_redidect(){
 }
 
 function create_directory() {
-    $('#new_directory').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<input id="new_file"type="text" placeholder="New directory">');
-        $(this).after('<button class="btn btn-success">Save</button>');
-        $('.btn').click(function (e) { 
-            create_directory_call();
-        });
+    let path = $('#main_container');
+    path.append('<input id="new_file"type="text" placeholder="New directory">');
+    path.append('<button class="btn btn-success">Save</button>');
+    $('.btn').click(function (e) { 
+        create_directory_call();
     });
+
 }
 function create_directory_call(){
     let name = $('#new_file').val();
@@ -44,45 +132,6 @@ function create_directory_call(){
         }
     });
 }
-
-
-function upload_file(){
-    $('#upload_file').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<input id="new_file"type="file" placeholder="New file">');
-        $(this).after('<button class="btn btn-success">Save</button>');
-        $('.btn').click(function (e) { 
-            upload_file_call();
-        });
-    });
-}
-function upload_file_call(){
-    let file = $('#new_file').prop('files')[0];
-    let parent_id = $('#actual_directory').val();
-    console.log(parent_id);
-    $.ajax({
-        url: "http://"+window.location.host+"/upload_file",
-        type: "POST",
-        data: {
-            file: file,
-            parent_id: parent_id,
-        },
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function(response){
-            // window.location.reload();
-        }
-    });
-}
-
-
-function upload_file2(){
-    $('#upload_file').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<form action="localhost:8000/upload_file"><input id="new_file"type="file" placeholder="New file"><input type="submit"></form>');
-    ;
-    });
+function toogle_form(){
+    $('#new-file-form').toggle();
 }

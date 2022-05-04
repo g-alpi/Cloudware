@@ -1,10 +1,10 @@
 {% extends 'base_templates/base_template_header.html' %}
 {% load static %}
-    <script src="{% static 'directory.js' %}"></script>
+
 {% block body %} 
 <div class="file-manager-background d-flex flex-grow-1  container-fluid ">
         <div class="row flex-grow-1">
-            <div class="col-8 flex-grow-1 border border-dark rounded m-5 bg-light position-relative box-shadow">
+            <div class="col-8 flex-grow-1 border border-dark rounded m-5 bg-light position-relative box-shadow" id="main_container">
                 {% if directory %}
                         <input type="hidden" value="{{directory.pk}}" id="actual_directory">
                     {% endif %}
@@ -13,7 +13,7 @@
                     </div>    
                     <div class=" d-flex flex-wrap  me-2">
                         {% for i in directories %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 ">
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 directory">
                                     <i class="fa-solid fa-folder fa-4x"></i>
                                     <p class="parent">{{ i }}</p>
                                     <input type="hidden" value="{{i.pk}}" name="id">  
@@ -43,14 +43,32 @@
                             <i class="fa-solid fa-folder-plus fa-2x "></i>   
                         </div>
                     </div>
+                    <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data"  id="new-file-form">
+                            
+                        {% if directory %}
+                            <input type="hidden" value="{{directory.pk}}" name="parent_id">
+                        {% endif %}
+                            
+                        <input type="file" name="uploaded_file">
+                        <input type="submit" value="Upload">
+                    </form>
                 </div>
-            <div class="col-2   offset-2 border-dark rounded m-5 bg-light box-shadow">
+            <div class="col-2   offset-2 border-dark rounded m-5 bg-light box-shadow" >
                 Myfiles
             </div>
         </div>
 </div>
-{% load static %}
+<ul class='upload-menu'>
+    <li data-action="first">Nuevo Fichero</li>
+    <li data-action="second">Nueva carpeta</li>
+</ul>
+<ul class='file-menu'>
+    <li data-action="first">Eliminar</li>
+    <li data-action="second">Mover</li>
+</ul>
 <script src="{% static 'directory.js' %}"></script>
+
+
 {% endblock %}
 
 
