@@ -137,10 +137,17 @@ header a:hover .circle-logo
     height: 32px;
 }
 
-.active
+.active 
 {
     border: var(--main-color) dotted 1px;
 }
+.active > i
+{
+
+    color: lightblue;
+}
+
+
 
 .upload-menu, .file-menu {
     display: none;
