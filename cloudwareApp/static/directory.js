@@ -1,11 +1,94 @@
 $(document).ready(function () {
     directory_redidect();
+    event_click_resources();
+    right_click_upload_resources();
+    right_click_edit_resources();
+    
+    
+
+
+});
+
+function directory_redidect(){
+    $('.parent').click(function (e) { 
+        e.preventDefault();
+        let id = $(this).next().val();
+        $.ajax({
+            type: "GET",
+            url: "http://"+window.location.host+"/directory/"+id,
+            success: function (response) {
+                window.location.href = "http://"+window.location.host+"/directory/"+id;
+            }
+        });
+    });
+
+}
+
+function create_directory() {
+
+    form_directory_toogle();
+    click_outside_directory_form();
+    
+    $('.btn').click(function (e) { 
+        create_directory_call();
+    });
+
+}
+function create_directory_call(){
+    let name = $('#new_file').val();
+    let parent_id = $('#actual_directory').val();
+    $.ajax({
+        url: "http://"+window.location.host+"/create_directory",
+        type: "POST",
+        data: {
+            name: name,
+            parent_id: parent_id,
+        },
+        success: function(response){
+            window.location.reload();
+        }
+    });
+}
+
+
+function cerate_file() {
+    form_file_toogle();
+    click_outside_file_form();
+}
+
+function form_directory_toogle() {
+    $('.form-directory-container').toggle();
+    $('.dark-background').toggle();
+}
+function form_file_toogle() {
+    $('.form-file-container').toggle();
+    $('.dark-background').toggle();
+}
+function click_outside_directory_form() {
+    $('.dark-background').click(function (e) {
+        $('.form-directory-container').hide();
+        $('.dark-background').hide();
+    });
+}
+function click_outside_file_form() {
+    $('.dark-background').click(function (e) {
+        $('.form-file-container').hide();
+        $('.dark-background').hide();
+    });
+}
+
+
+function event_click_resources() {
     $( ".resources" ).click(function() {
         $('.resources').removeClass('active');
         $( this ).toggleClass("active");
 
     });
-    // ****************************************************
+}
+
+
+
+function right_click_upload_resources() {
     $(".box-shadow" ).bind("contextmenu", function (event) {
     
         // Avoid the real one
@@ -40,7 +123,7 @@ $(document).ready(function () {
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
-            case "first": toogle_form(); break;
+            case "first": cerate_file(); break;
             case "second": create_directory(); break;
         }
     
@@ -48,7 +131,9 @@ $(document).ready(function () {
         $(".upload-menu").hide(100);
     });
 
-    // ****************************************************
+}
+
+function right_click_edit_resources() {
     $(".resources" ).bind("contextmenu", function (event) {
         
         // Avoid the real one
@@ -89,49 +174,5 @@ $(document).ready(function () {
         // Hide it AFTER the action was triggered
         $(".file-menu").hide(100);
     });
-
-
-});
-
-function directory_redidect(){
-    $('.parent').click(function (e) { 
-        e.preventDefault();
-        let id = $(this).next().val();
-        $.ajax({
-            type: "GET",
-            url: "http://"+window.location.host+"/directory/"+id,
-            success: function (response) {
-                window.location.href = "http://"+window.location.host+"/directory/"+id;
-            }
-        });
-    });
-
 }
-
-function create_directory() {
-    let path = $('#main_container');
-    path.append('<input id="new_file"type="text" placeholder="New directory">');
-    path.append('<button class="btn btn-success">Save</button>');
-    $('.btn').click(function (e) { 
-        create_directory_call();
-    });
-
-}
-function create_directory_call(){
-    let name = $('#new_file').val();
-    let parent_id = $('#actual_directory').val();
-    $.ajax({
-        url: "http://"+window.location.host+"/create_directory",
-        type: "POST",
-        data: {
-            name: name,
-            parent_id: parent_id,
-        },
-        success: function(response){
-            window.location.reload();
-        }
-    });
-}
-function toogle_form(){
-    $('#new-file-form').toggle();
-}
+    

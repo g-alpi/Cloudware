@@ -43,15 +43,7 @@
                             <i class="fa-solid fa-folder-plus fa-2x "></i>   
                         </div>
                     </div>
-                    <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data"  id="new-file-form">
-                            
-                        {% if directory %}
-                            <input type="hidden" value="{{directory.pk}}" name="parent_id">
-                        {% endif %}
-                            
-                        <input type="file" name="uploaded_file">
-                        <input type="submit" value="Upload">
-                    </form>
+                    
                 </div>
             <div class="col-2   offset-2 border-dark rounded m-5 bg-light box-shadow" >
                 Myfiles
@@ -59,13 +51,36 @@
         </div>
 </div>
 <ul class='upload-menu'>
-    <li data-action="first">Nuevo Fichero</li>
-    <li data-action="second">Nueva carpeta</li>
+    <li data-action="first">New file</li>
+    <li data-action="second">New directory</li>
 </ul>
 <ul class='file-menu'>
-    <li data-action="first">Eliminar</li>
-    <li data-action="second">Mover</li>
+    <li data-action="first">Remove</li>
+    <li data-action="second">Move</li>
 </ul>
+<div class="dark-background flex-grow-1 ">
+</div>
+<div class=" form-file-container  border border-dark rounded bg-light p-5 ">
+    <h3 class="pb-3">Upload file</h3>
+
+    <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data">
+                        
+        {% if directory %}
+            <input type="hidden" value="{{directory.pk}}" name="parent_id">
+        {% endif %}
+            
+        <input type="file" name="uploaded_file" >
+        <input type="submit" value="Upload">
+    </form>
+</div>
+<div class=" form-directory-container  border border-dark rounded bg-light p-5 ">
+    <h3 class="pb-3">Upload directory</h3>
+    <div class=" d-flex justify-content-center align-items-center">
+        <input id="new_file"type="text" placeholder="New directory name" class="me-2">
+        <button class="btn btn-success">Save</button>
+    </div>
+
+</div>
 <script src="{% static 'directory.js' %}"></script>
 
 
