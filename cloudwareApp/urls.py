@@ -7,6 +7,7 @@ app_name = 'cloud'
 urlpatterns = [
     path('', landing_page, name='landing_page'),
     path('signup/', signup, name='signup'),
+    path('validate_signup/', validate_signup, name='validate_signup'),
     path('login/', login_view, name='login'),
     path('login/authenticate', authenticate_view, name='authenticate'),
     path('logout', logout_view, name="logout"),
