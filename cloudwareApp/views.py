@@ -309,10 +309,11 @@ def validateRegisterPassword(request):
         return True
     return False
 
+@login_required
 def cloudware_app(request):
     return render(request, 'cloudware_app.html')
 
-
+@login_required
 def profile(request):
     return render(request, 'profile.html')
 
