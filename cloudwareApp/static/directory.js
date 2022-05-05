@@ -1,6 +1,12 @@
 $(document).ready(function () {
     directory_redidect();
-    create_directory();
+    event_click_resources();
+    right_click_upload_resources();
+    right_click_edit_resources();
+    event_click_upload_file_icon();
+    event_click_uplaod_directory_icon();
+
+
 });
 
 function directory_redidect(){
@@ -19,15 +25,14 @@ function directory_redidect(){
 }
 
 function create_directory() {
-    $('#new_directory').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<input id="new_file"type="text" placeholder="New directory">');
-        $(this).after('<button class="btn btn-success">Save</button>');
-        $('.btn').click(function (e) { 
-            create_directory_call();
-        });
+
+    form_directory_toogle();
+    click_outside_directory_form();
+    
+    $('.btn').click(function (e) { 
+        create_directory_call();
     });
+
 }
 function create_directory_call(){
     let name = $('#new_file').val();
@@ -46,43 +51,139 @@ function create_directory_call(){
 }
 
 
-function upload_file(){
-    $('#upload_file').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<input id="new_file"type="file" placeholder="New file">');
-        $(this).after('<button class="btn btn-success">Save</button>');
-        $('.btn').click(function (e) { 
-            upload_file_call();
+function cerate_file() {
+    form_file_toogle();
+    click_outside_file_form();
+}
+
+function form_directory_toogle() {
+    $('.form-directory-container').toggle();
+    $('.dark-background').toggle();
+}
+function form_file_toogle() {
+    $('.form-file-container').toggle();
+    $('.dark-background').toggle();
+}
+function click_outside_directory_form() {
+    $('.dark-background').click(function (e) {
+        $('.form-directory-container').hide();
+        $('.dark-background').hide();
+    });
+}
+function click_outside_file_form() {
+    $('.dark-background').click(function (e) {
+        $('.form-file-container').hide();
+        $('.dark-background').hide();
+    });
+}
+
+function event_click_upload_file_icon() {
+    $(".upload-file-icon").click(function(){
+        cerate_file();
+    });
+}
+function event_click_uplaod_directory_icon() {
+    $(".upload-directory-icon").click(function(){
+        create_directory();
+    });
+}
+
+
+function event_click_resources() {
+    $( ".resources" ).click(function() {
+        $('.resources').removeClass('active');
+        $( this ).toggleClass("active");
+
+    });
+}
+
+
+
+function right_click_upload_resources() {
+    $(".box-shadow" ).bind("contextmenu", function (event) {
+    
+        // Avoid the real one
+        event.preventDefault();
+        
+        // Show contextmenu
+        $(".upload-menu").finish().toggle(100).
+        
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
         });
     });
-}
-function upload_file_call(){
-    let file = $('#new_file').prop('files')[0];
-    let parent_id = $('#actual_directory').val();
-    console.log(parent_id);
-    $.ajax({
-        url: "http://"+window.location.host+"/upload_file",
-        type: "POST",
-        data: {
-            file: file,
-            parent_id: parent_id,
-        },
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function(response){
-            // window.location.reload();
+
+    // If the document is clicked somewhere
+    $(document ).bind("mousedown", function (e) {
+        
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".upload-menu").length > 0) {
+            
+            // Hide it
+            $(".upload-menu").hide(100);
         }
     });
+
+
+    // If the menu element is clicked
+    $(".upload-menu li").click(function(){
+        
+        // This is the triggered action name
+        switch($(this).attr("data-action")) {
+            
+            // A case for each action. Your actions here
+            case "first": cerate_file(); break;
+            case "second": create_directory(); break;
+        }
+    
+        // Hide it AFTER the action was triggered
+        $(".upload-menu").hide(100);
+    });
+
 }
 
+function right_click_edit_resources() {
+    $(".resources" ).bind("contextmenu", function (event) {
+        
+        // Avoid the real one
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Show contextmenu
+        $(".file-menu").finish().toggle(100).
+        
+        // In the right position (the mouse)
+        css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+    });
 
-function upload_file2(){
-    $('#upload_file').click(function (e) { 
-        e.preventDefault(); 
-        let path = $(this).parent().parent().children().last();
-        path.after('<form action="localhost:8000/upload_file"><input id="new_file"type="file" placeholder="New file"><input type="submit"></form>');
-    ;
+    // If the document is clicked somewhere
+    $(document).bind("mousedown", function (e) {
+        
+        // If the clicked element is not the menu
+        if (!$(e.target).parents(".file-menu").length > 0) {
+            
+            // Hide it
+            $(".file-menu").hide(100);
+        }
+    });
+    // If the menu element is clicked
+    $(".file-menu li").click(function(){
+        
+        // This is the triggered action name
+        switch($(this).attr("data-action")) {
+            
+            // A case for each action. Your actions here
+            case "first": alert("first"); break;
+            case "second": alert("second"); break;
+        }
+
+        // Hide it AFTER the action was triggered
+        $(".file-menu").hide(100);
     });
 }
+    

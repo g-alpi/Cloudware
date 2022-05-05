@@ -1,57 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    {% load static %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="{% static 'directory.js' %}"></script>
-</head>
-<body>
-    
-    {% if directory %}
-        <input type="hidden" value="{{directory.pk}}" id="actual_directory">
-    {% endif %}
-        
-    <div>
-        <h1>Directories <button id="new_directory">+</button></h1>
-        {% for i in directories  %}
-                <p class="parent">{{ i }}</p>
-                <input type="hidden" value="{{i.pk}}" name="id">
-                    
-        {% endfor %}
-    </div>
+{% extends 'base_templates/base_template_header.html' %}
+{% load static %}
 
-    
-    <div>
-        <h1>Files <button id="upload_file">+</button></h1>
-        {% for i in files %}
-                <p>{{ i.filename}}</p>
-        {% endfor %}
-    </div>
+{% block body %} 
+<div class="file-manager-background d-flex flex-grow-1  container-fluid ">
+        <div class="row flex-grow-1">
+            <div class="col-8 flex-grow-1 border border-dark rounded m-5 bg-light position-relative box-shadow" id="main_container">
+                {% if directory %}
+                        <input type="hidden" value="{{directory.pk}}" id="actual_directory">
+                    {% endif %}
+                    <div class="d-flex wrap">
+                        <h3 class="pe-2">My Files </h3>
+                    </div>    
+                    <div class=" d-flex flex-wrap  me-2">
+                        {% for i in directories %}
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
+                                    <i class="fa-solid fa-folder fa-4x"></i>
+                                    <p class="parent resource-name">{{ i }}</p>
+                                    <input type="hidden" value="{{i.pk}}" name="id">  
+                            </div>
+                        {% endfor %}
+                        
+                        {% for i in files %}
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
+                                <i class="fa-solid fa-file fa-4x"></i>
+                                <p class="resource-name">{{ i.filename}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <div class="position-absolute  bottom-0 end-0 m-2 d-flex">
+                        <div class=" border border-dark  rounded-circle p-3 mx-2 upload-file-icon position-relative upload-file-icon text-center ">
+                            <i class="fa-solid fa-file-medical fa-2x file-icon"></i>
+                        </div>
+                        <div class=" border border-dark rounded-circle p-3 upload-directory-icon  ">
+                            <i class="fa-solid fa-folder-plus fa-2x "></i>   
+                        </div>
+                    </div>
+                    
+                </div>
+            <div class="col-2   offset-2 border-dark rounded m-5 bg-light box-shadow" >
+                Myfiles
+            </div>
+        </div>
+</div>
+<ul class='upload-menu'>
+    <li data-action="first">New file</li>
+    <li data-action="second">New directory</li>
+</ul>
+
+<ul class='file-menu'>
+    <li data-action="first">Remove</li>
+    <li data-action="second">Move</li>
+    <li data-action="third">Share</li>
+</ul>
+
+<div class="dark-background flex-grow-1 ">
+</div>
+
+<div class=" form-file-container  border border-dark rounded bg-light p-5 ">
+    <h3 class="pb-3">Upload file</h3>
+
     <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data">
-        
+                        
         {% if directory %}
             <input type="hidden" value="{{directory.pk}}" name="parent_id">
         {% endif %}
             
-        <input type="file" name="uploaded_file">
+        <input type="file" name="uploaded_file" >
         <input type="submit" value="Upload">
     </form>
-    
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-        
-    
-        
-        
-        
-</body>
-</html>
+</div>
+
+<div class=" form-directory-container  border border-dark rounded bg-light p-5 ">
+    <h3 class="pb-3">Upload directory</h3>
+    <div class=" d-flex justify-content-center align-items-center">
+        <input id="new_file"type="text" placeholder="New directory name" class="me-2">
+        <button class="btn btn-success">Save</button>
+    </div>
+
+</div>
+
+<script src="{% static 'directory.js' %}"></script>
+
+
+{% endblock %}
+
+

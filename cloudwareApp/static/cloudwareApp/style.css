@@ -5,6 +5,7 @@
     --secondary-color: #EAE1C8;
     --light-color: #ffffff;
     --hover-light-color: #EAE1C8;
+    --hover-upload-buttons-color: #429B46;
 }
 body
 {
@@ -139,3 +140,110 @@ header a:hover .circle-logo
     height: 60px;
     padding-left: 50px;
 }
+
+
+.box-shadow{
+    box-shadow: 15px 10px 10px 5px rgba(0,0,0,0.25);
+}
+
+
+.file-manager-background 
+{
+    background: var(--secondary-color);
+    background-size: cover;
+}
+.resources:focus > i
+{
+    color: var(--hover-light-color);
+    transition: color 400ms;
+}
+
+.upload-directory-icon:hover , .upload-file-icon:hover
+{
+    background-color: var(--hover-upload-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+}
+
+.file-icon
+{
+
+    width: 32px;
+    height: 32px;
+}
+
+.resources
+{
+    max-width: 10%;
+    min-width: 10%;
+}
+
+.resource-name
+{
+    word-break: break-all;
+}
+
+.dark-background
+{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.form-file-container,.form-directory-container
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+}
+
+.form-file-container,.form-directory-container, .dark-background
+{
+    display: none ;
+}
+
+.active 
+{
+    border: var(--main-color) dotted 1px;
+}
+.active > i
+{
+    color: lightblue;
+}
+
+
+
+.upload-menu, .file-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+
+/* Each of the items in the list */
+.upload-menu li, .file-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+    user-select: none;
+}
+
+.upload-menu li:hover , .file-menu li:hover {
+    background-color: #DEF;
+}
+
