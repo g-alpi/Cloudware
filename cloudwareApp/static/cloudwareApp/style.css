@@ -11,10 +11,25 @@ body
     font-family: 'Montserrat', sans-serif;
 }
 
-.bg-primary-color {
-    background-color: var(--main-color) !important;
+.spacer-100px {
+    height: 100px;
 }
 
+.bg-primary-color 
+{
+    background-color: var(--main-color) !important;
+}
+.bg-primary-color-gradient
+{
+    background-image: linear-gradient(var(--main-color), var(--light-main-color));
+}
+.bg-database
+{
+    background-image: url("media/database.jpg");
+    background-size: cover;
+    background-position: center center;
+    min-height: 600px;
+}
 a 
 {
     color: var(--main-color);
@@ -29,8 +44,13 @@ a:hover
 header, footer
 {
     min-height: 100px;
-    background-color: var(--main-color);
+    background-image: linear-gradient(var(--main-color), var(--light-main-color));
     color: var(--light-color);
+}
+
+footer
+{
+    background-image: linear-gradient(var(--light-main-color), var(--main-color));
 }
 
 header a, footer a
@@ -56,6 +76,17 @@ header a:hover .circle-logo
 .cloudware-logo-text
 {
     font-family: 'Revalia', cursive;
+}
+.landing-welcome
+{
+    height: calc(100vh - 100px);
+    background: url("media/landing_background.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.landing-welcome a 
+{
+    font-size: 48px;
 }
 
 .login-background 
