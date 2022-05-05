@@ -36,10 +36,10 @@
                         </ul>
                     {% endif %}
                     <div class="position-absolute  bottom-0 end-0 m-2 d-flex">
-                        <div class=" border border-dark  rounded-circle p-3 mx-2 upload-file-icon position-relative upload-file-icon-div text-center ">
+                        <div class=" border border-dark  rounded-circle p-3 mx-2 upload-file-icon position-relative upload-file-icon text-center ">
                             <i class="fa-solid fa-file-medical fa-2x file-icon"></i>
                         </div>
-                        <div class=" border border-dark rounded-circle p-3 upload-directory-icon-div  ">
+                        <div class=" border border-dark rounded-circle p-3 upload-directory-icon  ">
                             <i class="fa-solid fa-folder-plus fa-2x "></i>   
                         </div>
                     </div>
@@ -54,12 +54,16 @@
     <li data-action="first">New file</li>
     <li data-action="second">New directory</li>
 </ul>
+
 <ul class='file-menu'>
     <li data-action="first">Remove</li>
     <li data-action="second">Move</li>
+    <li data-action="third">Share</li>
 </ul>
+
 <div class="dark-background flex-grow-1 ">
 </div>
+
 <div class=" form-file-container  border border-dark rounded bg-light p-5 ">
     <h3 class="pb-3">Upload file</h3>
 
@@ -73,6 +77,7 @@
         <input type="submit" value="Upload">
     </form>
 </div>
+
 <div class=" form-directory-container  border border-dark rounded bg-light p-5 ">
     <h3 class="pb-3">Upload directory</h3>
     <div class=" d-flex justify-content-center align-items-center">
@@ -81,6 +86,7 @@
     </div>
 
 </div>
+
 <script src="{% static 'directory.js' %}"></script>
 
 

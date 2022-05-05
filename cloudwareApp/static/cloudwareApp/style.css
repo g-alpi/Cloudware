@@ -122,7 +122,7 @@ header a:hover .circle-logo
     transition: color 400ms;
 }
 
-.upload-directory-icon-div:hover , .upload-file-icon-div:hover
+.upload-directory-icon:hover , .upload-file-icon:hover
 {
     background-color: var(--hover-upload-buttons-color);
     transition: background-color 500ms;
@@ -136,11 +136,13 @@ header a:hover .circle-logo
     width: 32px;
     height: 32px;
 }
+
 .resources
 {
     max-width: 10%;
     min-width: 10%;
 }
+
 .resource-name
 {
     word-break: break-all;
@@ -155,6 +157,7 @@ header a:hover .circle-logo
     background-color: black;
     opacity: 0.5;
 }
+
 .form-file-container,.form-directory-container
 {
     position: absolute;
@@ -163,11 +166,11 @@ header a:hover .circle-logo
     transform: translate(-50%, -50%);
     width: 600px;
 }
+
 .form-file-container,.form-directory-container, .dark-background
 {
     display: none ;
 }
-
 
 .active 
 {

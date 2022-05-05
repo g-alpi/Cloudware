@@ -3,8 +3,8 @@ $(document).ready(function () {
     event_click_resources();
     right_click_upload_resources();
     right_click_edit_resources();
-    
-    
+    event_click_upload_file_icon();
+    event_click_uplaod_directory_icon();
 
 
 });
@@ -74,6 +74,17 @@ function click_outside_file_form() {
     $('.dark-background').click(function (e) {
         $('.form-file-container').hide();
         $('.dark-background').hide();
+    });
+}
+
+function event_click_upload_file_icon() {
+    $(".upload-file-icon").click(function(){
+        cerate_file();
+    });
+}
+function event_click_uplaod_directory_icon() {
+    $(".upload-directory-icon").click(function(){
+        create_directory();
     });
 }
 
