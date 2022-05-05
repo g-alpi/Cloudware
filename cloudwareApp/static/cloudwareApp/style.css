@@ -116,7 +116,7 @@ header a:hover .circle-logo
     background: var(--secondary-color);
     background-size: cover;
 }
-.directory:focus > i
+.resources:focus > i
 {
     color: var(--hover-light-color);
     transition: color 400ms;
@@ -135,6 +135,15 @@ header a:hover .circle-logo
 
     width: 32px;
     height: 32px;
+}
+.resources
+{
+    max-width: 10%;
+    min-width: 10%;
+}
+.resource-name
+{
+    word-break: break-all;
 }
 
 .active 

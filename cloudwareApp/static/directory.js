@@ -1,7 +1,7 @@
 $(document).ready(function () {
     directory_redidect();
-    $( ".directory" ).click(function() {
-        $('.directory').removeClass('active');
+    $( ".resources" ).click(function() {
+        $('.resources').removeClass('active');
         $( this ).toggleClass("active");
 
     });
@@ -49,7 +49,7 @@ $(document).ready(function () {
     });
 
     // ****************************************************
-    $(".directory" ).bind("contextmenu", function (event) {
+    $(".resources" ).bind("contextmenu", function (event) {
         
         // Avoid the real one
         event.preventDefault();

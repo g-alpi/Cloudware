@@ -13,17 +13,17 @@
                     </div>    
                     <div class=" d-flex flex-wrap  me-2">
                         {% for i in directories %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 directory">
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
                                     <i class="fa-solid fa-folder fa-4x"></i>
-                                    <p class="parent">{{ i }}</p>
+                                    <p class="parent resource-name">{{ i }}</p>
                                     <input type="hidden" value="{{i.pk}}" name="id">  
                             </div>
                         {% endfor %}
                         
                         {% for i in files %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3">
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
                                 <i class="fa-solid fa-file fa-4x"></i>
-                                <p>{{ i.filename}}</p>
+                                <p class="resource-name">{{ i.filename}}</p>
                             </div>
                         {% endfor %}
                     </div>
