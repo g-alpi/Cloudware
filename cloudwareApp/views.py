@@ -21,8 +21,9 @@ from django.views.decorators.http import require_POST
 
 from .models import *
 
-import os
 import mimetypes
+import ntpath
+import os
 import re
 
 def landing_page(request):
@@ -111,14 +112,36 @@ def delete_file(request):
     return redirect("cloud:upload")
 
 @require_POST
+@csrf_exempt
 def edit_file(request):
     file_id = request.POST['id']
-    new_file = request.POST['file']
+    new_file_name = request.POST['name']
     file = authorizeFileAccess(request.user, file_id)
-    file.uploaded_file = new_file
+    path= calculate_new_file_paths(file, new_file_name)
+    update_file(file, path['new_path_admin'],path['actual_path_local'],path['new_path_local'])
+    
+    return redirect("cloud:directories")
+
+def update_file(file, new_path_admin, actual_path_local,new_path_local,):
+    file.uploaded_file = new_path_admin   
     file.upload_time = timezone.now()
     file.save()
-    return redirect("cloud:upload")
+    os.rename(actual_path_local, new_path_local)
+
+def calculate_new_file_paths(file, new_file_name):
+    actual_path_admin = str(file.uploaded_file)
+    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name)
+    actual_path_local = os.getcwd()+os.sep + 'cloudwareApp'+ os.sep+'media' + os.sep + actual_path_admin
+    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name)
+    
+    normalize_path(actual_path_local)
+    normalize_path(new_path_local)
+    
+    return {'actual_path_admin': actual_path_admin, 'new_path_admin': new_path_admin, 'actual_path_local': actual_path_local, 'new_path_local': new_path_local}
+    
+def normalize_path(path):
+    return  ntpath.normpath(path=path)
+    
 
 @login_required 
 def directories(request):

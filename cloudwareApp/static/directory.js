@@ -96,6 +96,35 @@ function event_click_resources() {
 
     });
 }
+function edit_source_name(source_pk,source_name,source_type) {
+
+    let container = $('[data-id="'+source_pk+'"]');
+    console.log(container);
+    container.children().last().remove();
+    container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
+    detect_enter_key_update_source('new_source_name',source_pk,source_type);
+
+}
+
+function detect_enter_key_update_source(input,source_pk,source_type) {
+    $('#'+input).keypress(function (e) { 
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if(keycode == '13'){
+            $.ajax({
+                url: "http://"+window.location.host+"/edit_"+source_type,
+                type: "POST",
+                data: {
+                    id: source_pk,
+                    name: $('#'+input).val(),
+                },
+                success: function(response){
+                    console.log(response);
+                    window.location.reload();
+                }
+            });
+        }
+    });
+};
 
 
 
@@ -145,12 +174,19 @@ function right_click_upload_resources() {
 }
 
 function right_click_edit_resources() {
+    let source_pk;
+    let source_name;
+    let source_type;
     $(".resources" ).bind("contextmenu", function (event) {
         
         // Avoid the real one
         event.preventDefault();
         event.stopPropagation();
-        
+
+        source_pk= $(this).attr("data-id");
+        source_name = $(this).attr("data-name");
+        source_type = $(this).attr("data-type");
+
         // Show contextmenu
         $(".file-menu").finish().toggle(100).
         
@@ -173,17 +209,15 @@ function right_click_edit_resources() {
     });
     // If the menu element is clicked
     $(".file-menu li").click(function(){
-        
         // This is the triggered action name
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
             case "first": alert("first"); break;
-            case "second": alert("second"); break;
+            case "second": edit_source_name(source_pk,source_name,source_type); break;
         }
 
         // Hide it AFTER the action was triggered
         $(".file-menu").hide(100);
     });
-}
-    
+}   
