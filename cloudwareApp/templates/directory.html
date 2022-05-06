@@ -21,7 +21,7 @@
                         {% endfor %}
                         
                         {% for i in files %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}">
                                 <i class="fa-solid fa-file fa-4x"></i>
                                 <p class="resource-name">{{ i.filename}}</p>
                             </div>
@@ -57,7 +57,7 @@
 
 <ul class='file-menu'>
     <li data-action="first">Remove</li>
-    <li data-action="second">Move</li>
+    <li data-action="second">Edit name</li>
     <li data-action="third">Share</li>
 </ul>
 
