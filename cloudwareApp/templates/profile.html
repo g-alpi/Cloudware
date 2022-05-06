@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="col-2 d-flex justify-content-end">
-                <button class="btn blue-btn text-white">
+                <button id="edit-username" class="btn blue-btn text-white">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
             </div>
@@ -39,7 +39,7 @@
                 </p>
             </div>
             <div class="col-2 d-flex justify-content-end">
-                <button class="btn blue-btn text-white">
+                <button id="edit-email" class="btn blue-btn text-white">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
             </div>
@@ -57,7 +57,7 @@
                 </p>
             </div>
             <div class="col-2 d-flex justify-content-end">
-                <button class="btn blue-btn text-white">
+                <button id="edit-password" class="btn blue-btn text-white">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
             </div>
@@ -65,17 +65,18 @@
         <hr class="my-3">
         <div class="row justify-content-center mb-3">
             <div class="col-10">
-                <button class="btn btn-danger">Delete Account</button>
+                <button id="delete-account" class="btn btn-danger">Delete Account</button>
             </div>
         </div>
     </div>
-    <div class="position-absolute bg-semi-transparent-black"></div>
-    <div class="position-absolute modify-form">
-        <div class="container-fluid p-5 bg-primary">
+    <div id="modal-transparent-background" class="position-absolute bg-semi-transparent-black"></div>
+    <div id="modify-username" class="position-absolute modify-form ">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
             <div class="row">
                 <div class="col">
-                    <h2 class="fs-4 mb-5 mt-4 text-uppercase">Update Username</h2>
-                    <form action="#" method="post" class="d-flex flex-column mb-5">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Username</h2>
+                    <form action="#a" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
                         <div class="image-form mb-4">
                             <span>
                                 <label for="username">
@@ -86,13 +87,107 @@
                         </div>
                         <div class="image-form mb-4">
                             <span>
-                                <label for="password">
+                                <label for="password-modify-username">
                                     <i class="fa-solid fa-lock"></i>
                                 </label>
                             </span>
-                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password" name="password"/>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-username" name="password"/>
                         </div>
                         <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-email" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Email</h2>
+                    <form action="#a" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="newEmail">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="New Email" aria-label="NewEmail" id="newEmail" name="newEmail"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-modify-email">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-email" name="password"/>
+                        </div>
+                        <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-password" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Password</h2>
+                    <form action="#a" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="newPassword">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="New Password" aria-label="NewPassword" id="newPassword" name="newPassword"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-modify-password">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-password" name="password"/>
+                        </div>
+                        <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="delete-account-modal" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Are you sure you want to delete your account?</h2>
+                    <form action="#a" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="username-delete-account">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" id="username-delete-account" name="username"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-delete-account">
+                                    <i class="fa-solid fa-user"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-delete-account" name="password"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button id="dismiss-delete-account" class="blue-btn py-2 text-uppercase w-100">I don't want to Delete my Account</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-danger py-2 text-uppercase w-100 h-100">Delete Account</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>

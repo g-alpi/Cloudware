@@ -39,6 +39,10 @@ ul.dropdown-menu a:hover
 {
     background-image: linear-gradient(var(--main-color), var(--light-main-color));
 }
+.bg-secondary-color
+{
+    background-color: var(--secondary-color) !important;
+}
 .bg-database
 {
     background-image: url("media/database.jpg");
@@ -65,6 +69,7 @@ a:hover
     bottom: 0;
     left: 0;
     right: 0;
+    display: none;
 }
 
 .modify-form
@@ -73,6 +78,7 @@ a:hover
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
+    display: none;
 }
 
 hr 
