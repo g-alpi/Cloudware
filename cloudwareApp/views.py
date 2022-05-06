@@ -117,22 +117,31 @@ def edit_file(request):
     file_id = request.POST['id']
     new_file_name = request.POST['name']
     file = authorizeFileAccess(request.user, file_id)
-    actual_path_admin = str(file.uploaded_file)
-    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name)
+    path= calculate_new_file_paths(file, new_file_name)
+    update_file(file, path['new_path_admin'],path['actual_path_local'],path['new_path_local'])
     
-    actual_path_local = os.getcwd()+os.sep + 'cloudwareApp'+ os.sep+'media' + os.sep + actual_path_admin
-    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name)
-    
-    actual_path_local=ntpath.normpath(path=actual_path_local)
-    new_path_local = ntpath.normpath(path=new_path_local)
+    return redirect("cloud:directories")
 
-    
-    os.rename(actual_path_local, new_path_local)
+def update_file(file, new_path_admin, actual_path_local,new_path_local,):
     file.uploaded_file = new_path_admin   
     file.upload_time = timezone.now()
     file.save()
+    os.rename(actual_path_local, new_path_local)
+
+def calculate_new_file_paths(file, new_file_name):
+    actual_path_admin = str(file.uploaded_file)
+    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name)
+    actual_path_local = os.getcwd()+os.sep + 'cloudwareApp'+ os.sep+'media' + os.sep + actual_path_admin
+    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name)
     
-    return redirect("cloud:directories")
+    normalize_path(actual_path_local)
+    normalize_path(new_path_local)
+    
+    return {'actual_path_admin': actual_path_admin, 'new_path_admin': new_path_admin, 'actual_path_local': actual_path_local, 'new_path_local': new_path_local}
+    
+def normalize_path(path):
+    return  ntpath.normpath(path=path)
+    
 
 @login_required 
 def directories(request):
