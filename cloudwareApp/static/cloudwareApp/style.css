@@ -16,6 +16,22 @@ body
     height: 100px;
 }
 
+ul.dropdown-menu 
+{
+    background-image: linear-gradient(var(--light-main-color), var(--main-color));
+}
+
+ul.dropdown-menu a
+{
+    transition: background-color 500ms
+}
+
+ul.dropdown-menu a:hover 
+{
+    background-color: var(--light-main-color);
+    transition: background-color 500ms
+}
+
 .bg-primary-color 
 {
     background-color: var(--main-color) !important;
@@ -23,6 +39,10 @@ body
 .bg-primary-color-gradient
 {
     background-image: linear-gradient(var(--main-color), var(--light-main-color));
+}
+.bg-secondary-color
+{
+    background-color: var(--secondary-color) !important;
 }
 .bg-database
 {
@@ -40,6 +60,32 @@ a:hover
 {
     color: var(--light-main-color);
     transition: color 500ms;
+}
+
+.bg-semi-transparent-black
+{
+    background-color: black;
+    opacity: 0.5;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+.modify-form
+{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    display: none;
+}
+
+hr 
+{
+    width: 40%;
+    margin: 0 auto;
 }
 
 header, footer
@@ -100,9 +146,13 @@ header a:hover .circle-logo
     background: url("media/signup_background.jpg") no-repeat center center fixed;
     background-size: cover;
 }
-.login-form, .signup-form
+.profile-background
 {
-    width: 600px;
+    background: url("media/profile_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.login-form, .signup-form, .options-form
+{
     height: 80%;
     background-color: var(--secondary-color);
     border-radius: 25px;

@@ -14,7 +14,7 @@ from operator import truediv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -273,22 +273,22 @@ def authenticate_view(request):
 
 def signup(request):
     possibleErrors = ['nameError', 'emailError', 'passwordError']
-    signupErrors = checkSignupErrors(request, possibleErrors)
+    signupErrors = checkErrors(request, possibleErrors)
     return render(request, 'signup.html', signupErrors)
 
-def checkSignupErrors(request, errorsToCheck):
-    signupErrors = {}
+def checkErrors(request, errorsToCheck):
+    errors = {}
     for error in errorsToCheck:
         if error in request.session:
-            signupErrors[error] = request.session[error]
+            errors[error] = request.session[error]
             request.session.pop(error)
-    return signupErrors
+    return errors
 
 
 def validate_signup(request):
-    nameValidation = validateRegisterUsername(request)
-    emailValidation = validateRegisterEmail(request)
-    passwordValidation = validateRegisterPassword(request)
+    nameValidation = validateRegisterUsername(request, 'nameError')
+    emailValidation = validateRegisterEmail(request, 'emailError')
+    passwordValidation = validateRegisterPassword(request, 'passwordError')
     
     if nameValidation or emailValidation or passwordValidation:
         return redirect('cloud:signup')
@@ -297,47 +297,117 @@ def validate_signup(request):
     newUser.save()
     return redirect('cloud:login')
 
-def validateRegisterUsername(request):
-    usernameExist = User.objects.filter(username=request.POST['username']).exists()
+def validateRegisterUsername(request, keyName, usernameKey = 'username'):
+    usernameExist = User.objects.filter(username=request.POST[usernameKey]).exists()
+    print("ola")
     if usernameExist:
-        request.session['nameError'] = 'Username already exists'
+        request.session[keyName] = 'Username already exists'
         return True
-    if len(request.POST['username']) <= 0:
-        request.session['nameError'] = 'Username must contain at least 1 character'
+    if len(request.POST[usernameKey]) <= 0:
+        request.session[keyName] = 'Username must contain at least 1 character'
         return True
-    if not request.POST['username'].isalnum():
-        request.session['nameError'] = 'Username must contain alphanumeric characters only'
+    if not request.POST[usernameKey].isalnum():
+        request.session[keyName] = 'Username must contain alphanumeric characters only'
         return True
     return False
 
-def validateRegisterEmail(request):
-    emailExist = User.objects.filter(email=request.POST['email']).exists()
+def validateRegisterEmail(request, keyName, emailKey = 'email'):
+    emailExist = User.objects.filter(email=request.POST[emailKey]).exists()
     if emailExist:
-        request.session['emailError'] = 'Email already exists'
+        request.session[keyName] = 'Email already exists'
         return True
-    if len(request.POST['email']) < 5:
-        request.session['emailError'] = 'Email must contain at least 5 characters'
+    if len(request.POST[emailKey]) < 5:
+        request.session[keyName] = 'Email must contain at least 5 characters'
         return True
-    if not validateEmail(request.POST['email']):
-        request.session['emailError'] = 'Email don\'t have a valid format'
-        return True
-    return False
-
-def validateRegisterPassword(request):
-    if len(request.POST['password']) < 8:
-        request.session['passwordError'] = 'Password must contain at least 8 characters'
-        return True
-    if request.POST['password'] != request.POST['passwordConfirmation']:
-        request.session['passwordError'] = 'Password and password confirmation are not the same'
+    if not validateEmail(request.POST[emailKey]):
+        request.session[keyName] = 'Email don\'t have a valid format'
         return True
     return False
 
+def validateRegisterPassword(request, keyName, passwordKey = 'password'):
+    if len(request.POST[passwordKey]) < 8:
+        request.session[keyName] = 'Password must contain at least 8 characters'
+        return True
+    if request.POST[passwordKey] != request.POST[passwordKey + 'Confirmation']:
+        request.session[keyName] = 'Password and password confirmation are not the same'
+        return True
+    return False
+
+@login_required
 def cloudware_app(request):
     return render(request, 'cloudware_app.html')
 
-
+@login_required
 def profile(request):
-    return render(request, 'profile.html')
+    possibleErrors = ['updateError']
+    updateErrors = checkErrors(request, possibleErrors)
+    return render(request, 'profile.html', updateErrors)
+
+@login_required
+def update_username(request):
+    usernameValidated = validateRegisterUsername(request, 'updateError', 'newUsername')
+    if usernameValidated:
+        return redirect('cloud:profile')
+
+    userToUpdate = authenticate(username=request.user.username, password=request.POST['password'])
+    if userToUpdate is not None:
+        userToUpdate.username = request.POST["newUsername"]
+        userToUpdate.save()
+        return redirect('cloud:profile')
+    
+    request.session['updateError'] = 'Wrong Password'
+    return redirect('cloud:profile')
+
+@login_required
+def update_email(request):
+    emailValidated = validateRegisterEmail(request, 'updateError', 'newEmail')
+    if emailValidated:
+        return redirect('cloud:profile')
+
+    userToUpdate = authenticate(username=request.user.username, password=request.POST['password'])
+    if userToUpdate is not None:
+        userToUpdate.email = request.POST["newEmail"]
+        userToUpdate.save()
+        return redirect('cloud:profile')
+    
+    request.session['updateError'] = 'Wrong Password'
+    return redirect('cloud:profile')
+
+@login_required
+def update_password(request):
+    passwordValidated = validateRegisterPassword(request, 'updateError', 'newPassword')
+    if passwordValidated:
+        return redirect('cloud:profile')
+
+    userToUpdate = authenticate(username=request.user.username, password=request.POST['password'])
+    if userToUpdate is not None:
+        userToUpdate.set_password(request.POST['newPassword'])
+        userToUpdate.save()
+        update_session_auth_hash(request, userToUpdate)
+        return redirect('cloud:profile')
+    
+    request.session['updateError'] = 'Wrong Password'
+    return redirect('cloud:profile')
+
+@login_required
+def delete_account(request):
+    userAuthentication = authenticate(username=request.POST['username'], password=request.POST['password'])
+    if userAuthentication is None:
+        request.session['updateError'] = 'Wrong Credentials'
+        return redirect('cloud:profile')
+
+    userConfirm = compareUsers(request.user, userAuthentication)
+    if not userConfirm:
+        request.session['updateError'] = 'Wrong Credentials'
+        return redirect('cloud:profile')
+
+    userToDelete = User.objects.get(pk=request.user.pk)
+    userToDelete.delete()
+    return redirect('cloud:landing_page')
+    
+
+def compareUsers(user1, user2):
+    return user1.pk == user2.pk
 
 
 def page_not_found(request, exception):
