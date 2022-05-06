@@ -22,6 +22,10 @@ urlpatterns = [
     path('create_directory', create_directory, name='create_directory'),
     path('directories', directories, name='directories'),
     path('directory/<int:dir_id>', get_directory, name='get_directory'),
+    path('update_username', update_username, name="update_username"),
+    path('update_email', update_email, name="update_email"),
+    path('update_password', update_password, name="update_password"),
+    path('delete_account', delete_account, name="delete_account"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = "cloudwareApp.views.page_not_found"
