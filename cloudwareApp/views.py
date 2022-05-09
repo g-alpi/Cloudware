@@ -50,7 +50,7 @@ def upload_file(request):
             save_new_file(uploaded_file, owner)
         else:
             messages.error(request, 'The path is too long, revise your folders')
-            return redirect('cloud:directories')
+            return redirect('cloud:cloudware_app')
         
     else:
         parent = get_object_or_404(Directory, pk = parent_id)
@@ -120,7 +120,7 @@ def edit_file(request):
     path= calculate_new_file_paths(file, new_file_name)
     update_file(file, path['new_path_admin'],path['actual_path_local'],path['new_path_local'])
     
-    return redirect("cloud:directories")
+    return redirect("cloud:cloudware_app")
 
 def update_file(file, new_path_admin, actual_path_local,new_path_local,):
     file.uploaded_file = new_path_admin   
@@ -144,7 +144,7 @@ def normalize_path(path):
     
 
 @login_required 
-def directories(request):
+def cloudware_app(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
     
@@ -224,6 +224,14 @@ def new_directory(path_dir, dir_name, owner, parent = None):
     )
     directory.save()
 
+def edit_directory(request):
+    directory_id = request.POST.get('id')
+    new_directory_name = request.POST.get('name')
+    directory = authorizeDirectoryAccess(request.user, directory_id)
+    path = get_parents_path(directory)
+    
+    directory.name = os.path.join(*path[::-1], new_directory_name)
+    
 
 @csrf_exempt
 def shareFile(request, fileId):
@@ -333,9 +341,6 @@ def validateRegisterPassword(request, keyName, passwordKey = 'password'):
         return True
     return False
 
-@login_required
-def cloudware_app(request):
-    return render(request, 'cloudware_app.html')
 
 @login_required
 def profile(request):
