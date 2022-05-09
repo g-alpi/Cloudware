@@ -224,13 +224,31 @@ def new_directory(path_dir, dir_name, owner, parent = None):
     )
     directory.save()
 
+@require_POST
+@csrf_exempt
 def edit_directory(request):
     directory_id = request.POST.get('id')
     new_directory_name = request.POST.get('name')
-    directory = authorizeDirectoryAccess(request.user, directory_id)
-    path = get_parents_path(directory)
+    directory = Directory.objects.get(pk = directory_id)
     
-    directory.name = os.path.join(*path[::-1], new_directory_name)
+    rename_directory(directory, new_directory_name)
+    
+    return redirect(to = "cloud:cloudware_app")
+
+def rename_directory(directory, new_name):
+    user_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files', str(directory.owner)) 
+    
+    if directory.parent == None:
+        os.rename(os.path.join(user_path, directory.name), os.path.join(user_path, new_name))
+        directory.name = new_name
+    else:
+        path = get_parents_path(directory)
+        actual_directory = os.path.join(user_path, *path[::-1])
+        
+        os.rename (actual_directory, os.path.join(os.path.split(actual_directory)[:-1][0], new_name))
+        directory.name = new_name
+        
+    directory.save()
     
 
 @csrf_exempt

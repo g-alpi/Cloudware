@@ -10,9 +10,10 @@ $(document).ready(function () {
 });
 
 function directory_redidect(){
-    $('.parent').click(function (e) { 
+    $('[data-type="directory"] p, [data-type="directory"] i').click(function (e) { 
         e.preventDefault();
-        let id = $(this).next().val();
+        let id = $(this).parent().attr('data-id');
+        console.log(id);
         $.ajax({
             type: "GET",
             url: "http://"+window.location.host+"/directory/"+id,
@@ -23,6 +24,7 @@ function directory_redidect(){
     });
 
 }
+
 
 function create_directory() {
 
@@ -98,12 +100,23 @@ function event_click_resources() {
 }
 function edit_source_name(source_pk,source_name,source_type) {
 
-    let container = $('[data-id="'+source_pk+'"]');
+    let container = $('[data-id="'+source_pk+'"][data-type="'+source_type+'"]');
     console.log(container);
     container.children().last().remove();
     container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
     detect_enter_key_update_source('new_source_name',source_pk,source_type);
+    click_outside_edit_source(container);
 
+}
+function click_outside_edit_source(container) {
+    $('#main_container').click(function (e) { 
+        e.preventDefault();
+        console.log($(e.target));
+        if(!$(e.target).is(container.children())){
+            container.children().last().remove();
+            container.append('<p>'+container.attr('data-name')+'</p>');
+        }
+    });
 }
 
 function detect_enter_key_update_source(input,source_pk,source_type) {

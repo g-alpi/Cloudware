@@ -13,10 +13,9 @@
                     </div>    
                     <div class=" d-flex flex-wrap  me-2">
                         {% for i in directories %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources " data-type="directory" data-id="{{i.pk}}" data-name="{{i.name}}">
                                     <i class="fa-solid fa-folder fa-4x"></i>
                                     <p class="parent resource-name">{{ i }}</p>
-                                    <input type="hidden" value="{{i.pk}}" name="id">  
                             </div>
                         {% endfor %}
                         
