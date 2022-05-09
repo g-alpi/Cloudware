@@ -111,10 +111,14 @@ function edit_source_name(source_pk,source_name,source_type) {
 function click_outside_edit_source(container) {
     $('#main_container').click(function (e) { 
         e.preventDefault();
-        console.log($(e.target));
         if(!$(e.target).is(container.children())){
             container.children().last().remove();
-            container.append('<p>'+container.attr('data-name')+'</p>');
+            if (container.attr('data-type') == 'file') {
+                container.append('<p>'+container.attr('data-name')+container.attr('data-extension')+'</p>');
+            }
+            else{
+                container.append('<p>'+container.attr('data-name')+'</p>');
+            }
         }
     });
 }
