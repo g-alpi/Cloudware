@@ -1,4 +1,130 @@
 {% extends 'base_templates/base_template_header.html' %}
-{% block body %}
-<h1>CloudWare App</h1>
+{% load static %}
+
+{% block body %} 
+<div class="file-manager-background d-flex flex-grow-1  container-fluid ">
+        <div class="row flex-grow-1">
+            <div class="col-8 flex-grow-1 rounded-3 m-5 bg-light p-3 position-relative box-shadow" id="main_container">
+                {% if directory %}
+                        <input type="hidden" value="{{directory.pk}}" id="actual_directory">
+                    {% endif %} 
+                    <div class=" d-flex flex-wrap  me-2">
+                        {% for i in directories %}
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
+                                    <i class="fa-solid fa-folder fa-4x"></i>
+                                    <p class="parent resource-name">{{ i }}</p>
+                                    <input type="hidden" value="{{i.pk}}" name="id">  
+                            </div>
+                        {% endfor %}
+                        
+                        {% for i in files %}
+                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}">
+                                <i class="fa-solid fa-file fa-4x"></i>
+                                <p class="resource-name">{{ i.filename}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}                    
+                </div>
+            <div class="col-2 offset-2 border-dark rounded m-5 bg-light box-shadow d-flex flex-column" >
+                <div class="row">
+                    <div class="col py-3 mt-3">
+                        <p class="text-center fs-3 m-0">Cloudware</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col py-3">
+                        <p class="text-center fs-3 m-0">Shared Files</p>
+                    </div>
+                </div>
+                <div class="row flex-grow-1">
+                    <div class="col d-flex flex-column flex-grow-1">
+                        <div class="mt-auto pb-3 px-3 d-flex justify-content-around">
+                            <div id="file-management" class="d-flex flex-column-reverse py-3 px-2 resources-management mt-auto">
+                                <div class="rounded-circle p-3 info-resource">
+                                    <i class="fa-solid fa-file fa-2x"></i>
+                                </div>
+                                <div id="add-file" class="rounded-circle p-3 add-resource mb-3">
+                                    <i class="fa-solid fa-file-circle-plus fa-2x"></i>
+                                </div>
+                                <div id="remove-file" class="rounded-circle remove-resource p-3 mb-3">
+                                    <i class="fa-solid fa-file-circle-minus fa-2x"></i>
+                                </div>
+                                <div id="remove-user" class="rounded-circle share-resource p-3 mb-3">
+                                    <i class="fa-solid fa-share fa-2x"></i>
+                                </div>
+                            </div>
+                            <div id="directory-management" class="d-flex flex-column-reverse py-3 px-2 resources-management mt-auto">
+                                <div class="rounded-circle p-3 info-resource">
+                                    <i class="fa-solid fa-folder fa-2x"></i>
+                                </div>
+                                <div id="add-directory" class="rounded-circle p-3 add-resource mb-3">
+                                    <i class="fa-solid fa-folder-plus fa-2x"></i>
+                                </div>
+                                <div id="remove-directory" class="rounded-circle remove-resource p-3 mb-3">
+                                    <i class="fa-solid fa-folder-minus fa-2x"></i>
+                                </div>
+                                <div id="remove-directory" class="rounded-circle share-resource p-3 mb-3">
+                                    <i class="fa-solid fa-share fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<ul class='upload-menu'>
+    <li data-action="first">New file</li>
+    <li data-action="second">New directory</li>
+</ul>
+
+<ul class='file-menu'>
+    <li data-action="first">Remove</li>
+    <li data-action="second">Edit name</li>
+    <li data-action="third">Share</li>
+</ul>
+
+<div class="dark-background flex-grow-1 ">
+</div>
+
+<div class="form-file-container bg-light p-5 ">
+    <h3 class="pb-3">Upload file</h3>
+    <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data" class="d-flex flex-column">
+        {% if directory %}
+            <input type="hidden" value="{{directory.pk}}" name="parent_id">
+        {% endif %}
+        <label for="files"> upload-file</label>
+        <input id="files" type="file" name="uploaded_file" style="visibility: hidden;">
+        <p id="filo"></p>
+        <input type="submit" value="Upload">
+    </form>
+</div>
+
+<div class=" form-directory-container  border border-dark rounded bg-light p-5 ">
+    <h3 class="pb-3">Upload directory</h3>
+    <div class=" d-flex justify-content-center align-items-center">
+        <input id="new_file"type="text" placeholder="New directory name" class="me-2">
+        <button class="btn btn-success">Save</button>
+    </div>
+
+</div>
+
+<script src="{% static 'directory.js' %}"></script>
+<script>
+    $("#files").change(function() {
+        filename = this.files[0].name;
+        console.log(filename);
+        $("#filo").text(filename);
+    });
+</script>
 {% endblock %}
+
+

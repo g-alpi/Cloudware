@@ -5,7 +5,8 @@
     --secondary-color: #EAE1C8;
     --light-color: #ffffff;
     --hover-light-color: #EAE1C8;
-    --hover-upload-buttons-color: #429B46;
+    --upload-buttons-color: #429B46;
+    --delete-buttons-color: #dc3545;
 }
 body
 {
@@ -61,7 +62,10 @@ a:hover
     color: var(--light-main-color);
     transition: color 500ms;
 }
-
+a.active 
+{
+    border:none !important;
+}
 .bg-semi-transparent-black
 {
     background-color: black;
@@ -193,34 +197,70 @@ header a:hover .circle-logo
 
 
 .box-shadow{
-    box-shadow: 15px 10px 10px 5px rgba(0,0,0,0.25);
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.25);
 }
-
 
 .file-manager-background 
 {
     background: var(--secondary-color);
     background-size: cover;
 }
+
 .resources:focus > i
 {
     color: var(--hover-light-color);
     transition: color 400ms;
 }
 
-.upload-directory-icon:hover , .upload-file-icon:hover
+.info-resource
 {
-    background-color: var(--hover-upload-buttons-color);
+    background-color: var(--light-main-color);
     transition: background-color 500ms;
     color: var(--light-color);
     cursor: pointer;
 }
 
-.file-icon
+.share-resource
 {
+    background-color: var(--main-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
 
+.add-resource
+{
+    background-color: var(--upload-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
+
+.remove-resource
+{
+    background-color: var(--delete-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
+
+.resources-management:hover .add-resource, .resources-management:hover .remove-resource, .resources-management:hover .share-resource
+{
+    display: block;
+}
+
+.rounded-semiround 
+{
+    border-radius: 3.3rem!important
+}
+
+.fa-file
+{
     width: 32px;
-    height: 32px;
+    text-align: center;
 }
 
 .resources
