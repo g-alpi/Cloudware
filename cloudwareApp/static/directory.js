@@ -25,6 +25,7 @@ function directory_redidect(){
 
 }
 
+
 function create_directory() {
 
     form_directory_toogle();
@@ -104,7 +105,18 @@ function edit_source_name(source_pk,source_name,source_type) {
     container.children().last().remove();
     container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
     detect_enter_key_update_source('new_source_name',source_pk,source_type);
+    click_outside_edit_source(container);
 
+}
+function click_outside_edit_source(container) {
+    $('#main_container').click(function (e) { 
+        e.preventDefault();
+        console.log($(e.target));
+        if(!$(e.target).is(container.children())){
+            container.children().last().remove();
+            container.append('<p>'+container.attr('data-name')+'</p>');
+        }
+    });
 }
 
 function detect_enter_key_update_source(input,source_pk,source_type) {
