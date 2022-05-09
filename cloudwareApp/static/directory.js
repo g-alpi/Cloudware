@@ -10,9 +10,10 @@ $(document).ready(function () {
 });
 
 function directory_redidect(){
-    $('.parent').click(function (e) { 
+    $('[data-type="directory"] p, [data-type="directory"] i').click(function (e) { 
         e.preventDefault();
-        let id = $(this).next().val();
+        let id = $(this).parent().attr('data-id');
+        console.log(id);
         $.ajax({
             type: "GET",
             url: "http://"+window.location.host+"/directory/"+id,
@@ -98,7 +99,7 @@ function event_click_resources() {
 }
 function edit_source_name(source_pk,source_name,source_type) {
 
-    let container = $('[data-id="'+source_pk+'"]');
+    let container = $('[data-id="'+source_pk+'"][data-type="'+source_type+'"]');
     console.log(container);
     container.children().last().remove();
     container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
