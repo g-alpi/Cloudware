@@ -105,10 +105,12 @@ def getFileResponse(absoluteFilePath, fileName):
     return response
 
 @require_POST
+@csrf_exempt
 def delete_file(request):
     file_id = request.POST['id']
     file = authorizeFileAccess(request.user, file_id)
     file.delete()
+    
     return redirect("cloud:upload")
 
 @require_POST
