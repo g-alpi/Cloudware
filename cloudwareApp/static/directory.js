@@ -13,7 +13,6 @@ function directory_redidect(){
     $('[data-type="directory"] p, [data-type="directory"] i').click(function (e) { 
         e.preventDefault();
         let id = $(this).parent().attr('data-id');
-        console.log(id);
         $.ajax({
             type: "GET",
             url: "http://"+window.location.host+"/directory/"+id,
@@ -101,13 +100,30 @@ function event_click_resources() {
 function edit_source_name(source_pk,source_name,source_type) {
 
     let container = $('[data-id="'+source_pk+'"][data-type="'+source_type+'"]');
-    console.log(container);
     container.children().last().remove();
     container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
     detect_enter_key_update_source('new_source_name',source_pk,source_type);
     click_outside_edit_source(container);
 
 }
+
+function delete_source(source_pk,source_type) { 
+    $.ajax({
+        url: "http://"+window.location.host+"/delete_"+source_type,
+        type: "POST",
+        data: {
+            id: source_pk,
+        },
+        success: function(response){
+            console.log(response);
+            location.reload();
+        }
+        
+    });
+}
+
+
+
 function click_outside_edit_source(container) {
     $('#main_container').click(function (e) { 
         e.preventDefault();
@@ -230,7 +246,7 @@ function right_click_edit_resources() {
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
-            case "first": alert("first"); break;
+            case "first": delete_source(source_pk,source_type); break;
             case "second": edit_source_name(source_pk,source_name,source_type); break;
         }
 

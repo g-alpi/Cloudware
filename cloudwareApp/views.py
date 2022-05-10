@@ -21,10 +21,10 @@ from django.views.decorators.http import require_POST
 
 from .models import *
 
-import mimetypes
-import ntpath
 import os
 import re
+import shutil
+import mimetypes
 
 def landing_page(request):
         return render(request, 'landing_page.html')
@@ -105,11 +105,36 @@ def getFileResponse(absoluteFilePath, fileName):
     return response
 
 @require_POST
+@csrf_exempt
 def delete_file(request):
     file_id = request.POST['id']
     file = authorizeFileAccess(request.user, file_id)
+    delete_file_local(file)
     file.delete()
+    
     return redirect("cloud:upload")
+
+def delete_file_local(file):
+    filename = os.path.split(str(file.uploaded_file))[-1]
+    if file.parent == None:
+        os.remove(str(file.uploaded_file))
+    else:
+        os.remove(os.path.join('media','uploaded_files', str(file.owner), *get_parents_path(file.parent)[::-1], filename))
+@require_POST
+@csrf_exempt
+def delete_directory(request):
+    directory_id = request.POST['id']
+    directory = Directory.objects.get(owner = request.user, pk= directory_id)
+    delete_directory_local(directory)
+    directory.delete()
+    
+    return redirect("cloud:upload")
+
+def delete_directory_local(directory):
+    if directory.parent == None:
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner),str(directory.name)))
+    else:
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner), *get_parents_path(directory.parent)[::-1], directory.name))
 
 @require_POST
 @csrf_exempt
@@ -195,12 +220,12 @@ def check_media_directory():
         os.mkdir(media_path)
         
 def check_upload_directory():
-    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    uploaded_files_path = os.path.join('media', 'uploaded_files')
     if not os.path.exists(uploaded_files_path):
         os.mkdir(uploaded_files_path)
         
 def check_user_directory(user):
-    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    uploaded_files_path = os.path.join('media', 'uploaded_files')
     user_path = os.path.join(uploaded_files_path, str(user))
     if not os.path.exists(user_path):
         os.mkdir(user_path)

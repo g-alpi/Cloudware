@@ -18,6 +18,7 @@ urlpatterns = [
     path('share-file/<int:fileId>', shareFile, name="shareFile"),
     path('upload_file', upload_file, name='upload_file'),
     path('delete_file', delete_file, name='delete_file'),
+    path('delete_directory', delete_directory, name='delete_directory'),
     path('edit_file', edit_file, name='edit_file'),
     path('edit_directory', edit_directory, name='edit_directory'),
     path('create_directory', create_directory, name='create_directory'),
