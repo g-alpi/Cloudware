@@ -47,7 +47,7 @@ class File (models.Model):
     def __str__(self):
         return str(self.uploaded_file)
     def filename(self):
-        return os.path.basename(self.uploaded_file.name).split('.')[0][:-1]
+        return os.path.basename(self.uploaded_file.name).split('.')[0]
     def extension(self):
         return os.path.splitext(self.uploaded_file.name)[1]
 

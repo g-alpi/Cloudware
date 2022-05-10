@@ -130,17 +130,18 @@ def update_file(file, new_path_admin, actual_path_local,new_path_local,):
 
 def calculate_new_file_paths(file, new_file_name):
     actual_path_admin = str(file.uploaded_file)
-    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name)
-    actual_path_local = os.getcwd()+os.sep +'media' + os.sep + actual_path_admin
-    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name)
-    
-    normalize_path(actual_path_local)
-    normalize_path(new_path_local)
+    extension = os.path.splitext(str(file.uploaded_file))[1]
+    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name + extension)
+    actual_path_local = os.path.join(os.getcwd(), actual_path_admin)
+    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name + extension) 
+    actual_path_admin = normalize_path(actual_path_admin)
+    actual_path_local = normalize_path(actual_path_local)
+    new_path_local = normalize_path(new_path_local)
     
     return {'actual_path_admin': actual_path_admin, 'new_path_admin': new_path_admin, 'actual_path_local': actual_path_local, 'new_path_local': new_path_local}
     
 def normalize_path(path):
-    return  ntpath.normpath(path=path)
+    return  os.path.normpath(path)
     
 
 @login_required 
