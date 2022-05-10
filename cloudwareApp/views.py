@@ -21,10 +21,10 @@ from django.views.decorators.http import require_POST
 
 from .models import *
 
-import mimetypes
-import ntpath
 import os
 import re
+import shutil
+import mimetypes
 
 def landing_page(request):
         return render(request, 'landing_page.html')
@@ -132,9 +132,9 @@ def delete_directory(request):
 
 def delete_directory_local(directory):
     if directory.parent == None:
-        os.rmdir(os.path.join('media','uploaded_files', str(directory.owner),str(directory.name)))
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner),str(directory.name)))
     else:
-        os.rmdir(os.path.join('media','uploaded_files', str(directory.owner), *get_parents_path(directory.parent)[::-1], directory.name))
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner), *get_parents_path(directory.parent)[::-1], directory.name))
 
 @require_POST
 @csrf_exempt
