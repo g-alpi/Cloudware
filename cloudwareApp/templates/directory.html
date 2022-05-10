@@ -22,7 +22,7 @@
                         {% for i in files %}
                             <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}" data-extension="{{i.extension}}">
                                 <i class="fa-solid fa-file fa-4x"></i>
-                                <p class="resource-name">{{ i.filename}}    {{i.extension}}</p>
+                                <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
                             </div>
                         {% endfor %}
                     </div>
