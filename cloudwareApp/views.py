@@ -190,7 +190,7 @@ def create_directory(request):
     return render(request, 'directory.html')
 
 def check_media_directory():
-    media_path = os.path.join(settings.BASE_DIR,'cloudwareApp', 'media')
+    media_path = os.path.join(settings.BASE_DIR, 'media')
     if not os.path.exists(media_path):
         os.mkdir(media_path)
         
