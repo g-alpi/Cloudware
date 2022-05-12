@@ -32,7 +32,7 @@ def landing_page(request):
 @login_required
 def upload(request):
     documents = File.objects.all()
-    return render(request, "upload_file.html", context = {
+    return render(request, "cloudware_app.html", context = {
         "files": documents
     })
 
@@ -174,8 +174,8 @@ def normalize_path(path):
 def cloudware_app(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
-    
-    return render(request, "directory.html", context = {
+
+    return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,
     })
@@ -187,7 +187,7 @@ def get_directory (request, dir_id):
     directory = Directory.objects.get(pk = dir_id)
     files = File.objects.filter(parent = directory)
     directories = Directory.objects.filter(parent = directory)
-    return render(request, "directory.html", context = {
+    return render(request, "cloudware_app.html", context = {
         'directory':directory,
         "files": files,
         "directories": directories,
@@ -213,7 +213,7 @@ def create_directory(request):
         user_dir = os.path.join(user_dir,*path[::-1]) 
         new_directory(user_dir,dir_name,request.user,actual_directory)
         
-    return render(request, 'directory.html')
+    return render(request, 'cloudware_app.html')
 
 def check_media_directory():
     media_path = os.path.join(settings.BASE_DIR, 'media')

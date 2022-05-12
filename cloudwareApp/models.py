@@ -50,6 +50,8 @@ class File (models.Model):
         return os.path.basename(self.uploaded_file.name).split('.')[0]
     def extension(self):
         return os.path.splitext(self.uploaded_file.name)[1]
+    def extensionText(self):
+        return self.uploaded_file.name.split(".")[-1]
 
     
 class SharedFile(models.Model):

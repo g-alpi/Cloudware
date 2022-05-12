@@ -79,12 +79,12 @@ function click_outside_file_form() {
 }
 
 function event_click_upload_file_icon() {
-    $(".upload-file-icon").click(function(){
+    $("#add-file").click(function(){
         cerate_file();
     });
 }
 function event_click_uplaod_directory_icon() {
-    $(".upload-directory-icon").click(function(){
+    $("#add-directory").click(function(){
         create_directory();
     });
 }
@@ -172,7 +172,7 @@ function detect_enter_key_update_source(input,source_pk,source_type) {
 
 
 function right_click_upload_resources() {
-    $(".box-shadow" ).bind("contextmenu", function (event) {
+    $("#main_container" ).bind("contextmenu", function (event) {
     
         // Avoid the real one
         event.preventDefault();
