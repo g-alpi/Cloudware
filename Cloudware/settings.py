@@ -120,7 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATICFILES_DIRS = (
 
-    os.path.join(BASE_DIR, "cloudwareApp/static"),
+    os.path.join(BASE_DIR, "static"),
 )
 
 STATIC_URL = '/static/'
@@ -130,6 +130,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/cloudwareApp/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'cloudwareApp','media')
+MEDIA_URL = ''
+MEDIA_ROOT = ''
 django_heroku.settings(locals())

@@ -10,9 +10,9 @@ $(document).ready(function () {
 });
 
 function directory_redidect(){
-    $('.parent').click(function (e) { 
+    $('[data-type="directory"] p, [data-type="directory"] i').click(function (e) { 
         e.preventDefault();
-        let id = $(this).next().val();
+        let id = $(this).parent().attr('data-id');
         $.ajax({
             type: "GET",
             url: "http://"+window.location.host+"/directory/"+id,
@@ -23,6 +23,7 @@ function directory_redidect(){
     });
 
 }
+
 
 function create_directory() {
 
@@ -98,12 +99,54 @@ function event_click_resources() {
 }
 function edit_source_name(source_pk,source_name,source_type) {
 
-    let container = $('[data-id="'+source_pk+'"]');
-    console.log(container);
+    let container = $('[data-id="'+source_pk+'"][data-type="'+source_type+'"]');
     container.children().last().remove();
     container.append('<input type="text" id="new_source_name" value="'+source_name+'" class="m-2" >');
     detect_enter_key_update_source('new_source_name',source_pk,source_type);
+    click_outside_edit_source(container);
 
+}
+
+function delete_source(source_pk,source_type) { 
+    $.ajax({
+        url: "http://"+window.location.host+"/delete_"+source_type,
+        type: "POST",
+        data: {
+            id: source_pk,
+        },
+        success: function(response){
+            console.log(response);
+            location.reload();
+        }
+        
+    });
+}
+
+function download_file (source_pk) {
+    $.ajax({
+        url: "http://"+window.location.host+"/download_file/"+source_pk,
+        type: "POST",
+        success: function (response) {
+            window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
+        }
+    });
+}
+
+
+
+function click_outside_edit_source(container) {
+    $('#main_container').click(function (e) { 
+        e.preventDefault();
+        if(!$(e.target).is(container.children())){
+            container.children().last().remove();
+            if (container.attr('data-type') == 'file') {
+                container.append('<p>'+container.attr('data-name')+container.attr('data-extension')+'</p>');
+            }
+            else{
+                container.append('<p>'+container.attr('data-name')+'</p>');
+            }
+        }
+    });
 }
 
 function detect_enter_key_update_source(input,source_pk,source_type) {
@@ -213,8 +256,10 @@ function right_click_edit_resources() {
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
-            case "first": alert("first"); break;
+            case "first": download_file(source_pk); break;
             case "second": edit_source_name(source_pk,source_name,source_type); break;
+            case "third": share_file(); break;
+            case "fourth": delete_source(source_pk,source_type); break;
         }
 
         // Hide it AFTER the action was triggered

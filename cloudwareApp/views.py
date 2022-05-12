@@ -21,10 +21,10 @@ from django.views.decorators.http import require_POST
 
 from .models import *
 
-import mimetypes
-import ntpath
 import os
 import re
+import shutil
+import mimetypes
 
 def landing_page(request):
         return render(request, 'landing_page.html')
@@ -76,10 +76,11 @@ def save_new_file(uploaded_file, owner,parent = None):
 
 
 @login_required
+@csrf_exempt
 def downloadFile(request, fileId):
     file = authorizeFileAccess(request.user, fileId)
     filePath = str(file.uploaded_file)
-    fileName = str(file.uploaded_file).split(os.sep)[-1]
+    fileName = os.path.basename(file.uploaded_file.name)
     try:
         return obtainFile(filePath, fileName)
     except FileNotFoundError:
@@ -105,11 +106,36 @@ def getFileResponse(absoluteFilePath, fileName):
     return response
 
 @require_POST
+@csrf_exempt
 def delete_file(request):
     file_id = request.POST['id']
     file = authorizeFileAccess(request.user, file_id)
+    delete_file_local(file)
     file.delete()
+    
     return redirect("cloud:upload")
+
+def delete_file_local(file):
+    filename = os.path.split(str(file.uploaded_file))[-1]
+    if file.parent == None:
+        os.remove(str(file.uploaded_file))
+    else:
+        os.remove(os.path.join('media','uploaded_files', str(file.owner), *get_parents_path(file.parent)[::-1], filename))
+@require_POST
+@csrf_exempt
+def delete_directory(request):
+    directory_id = request.POST['id']
+    directory = Directory.objects.get(owner = request.user, pk= directory_id)
+    delete_directory_local(directory)
+    directory.delete()
+    
+    return redirect("cloud:upload")
+
+def delete_directory_local(directory):
+    if directory.parent == None:
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner),str(directory.name)))
+    else:
+        shutil.rmtree(os.path.join('media','uploaded_files', str(directory.owner), *get_parents_path(directory.parent)[::-1], directory.name))
 
 @require_POST
 @csrf_exempt
@@ -130,17 +156,18 @@ def update_file(file, new_path_admin, actual_path_local,new_path_local,):
 
 def calculate_new_file_paths(file, new_file_name):
     actual_path_admin = str(file.uploaded_file)
-    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name)
-    actual_path_local = os.getcwd()+os.sep + 'cloudwareApp'+ os.sep+'media' + os.sep + actual_path_admin
-    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name)
-    
-    normalize_path(actual_path_local)
-    normalize_path(new_path_local)
+    extension = os.path.splitext(str(file.uploaded_file))[1]
+    new_path_admin = actual_path_admin.replace(os.path.split(actual_path_admin)[-1], new_file_name + extension)
+    actual_path_local = os.path.join(os.getcwd(), actual_path_admin)
+    new_path_local = actual_path_local.replace(os.path.split(actual_path_local)[-1], new_file_name + extension) 
+    actual_path_admin = normalize_path(actual_path_admin)
+    actual_path_local = normalize_path(actual_path_local)
+    new_path_local = normalize_path(new_path_local)
     
     return {'actual_path_admin': actual_path_admin, 'new_path_admin': new_path_admin, 'actual_path_local': actual_path_local, 'new_path_local': new_path_local}
     
 def normalize_path(path):
-    return  ntpath.normpath(path=path)
+    return  os.path.normpath(path)
     
 
 @login_required 
@@ -189,17 +216,17 @@ def create_directory(request):
     return render(request, 'cloudware_app.html')
 
 def check_media_directory():
-    media_path = os.path.join(settings.BASE_DIR,'cloudwareApp', 'media')
+    media_path = os.path.join(settings.BASE_DIR, 'media')
     if not os.path.exists(media_path):
         os.mkdir(media_path)
         
 def check_upload_directory():
-    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    uploaded_files_path = os.path.join('media', 'uploaded_files')
     if not os.path.exists(uploaded_files_path):
         os.mkdir(uploaded_files_path)
         
 def check_user_directory(user):
-    uploaded_files_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files')
+    uploaded_files_path = os.path.join('media', 'uploaded_files')
     user_path = os.path.join(uploaded_files_path, str(user))
     if not os.path.exists(user_path):
         os.mkdir(user_path)
@@ -224,13 +251,31 @@ def new_directory(path_dir, dir_name, owner, parent = None):
     )
     directory.save()
 
+@require_POST
+@csrf_exempt
 def edit_directory(request):
     directory_id = request.POST.get('id')
     new_directory_name = request.POST.get('name')
-    directory = authorizeDirectoryAccess(request.user, directory_id)
-    path = get_parents_path(directory)
+    directory = Directory.objects.get(pk = directory_id)
     
-    directory.name = os.path.join(*path[::-1], new_directory_name)
+    rename_directory(directory, new_directory_name)
+    
+    return redirect(to = "cloud:cloudware_app")
+
+def rename_directory(directory, new_name):
+    user_path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files', str(directory.owner)) 
+    
+    if directory.parent == None:
+        os.rename(os.path.join(user_path, directory.name), os.path.join(user_path, new_name))
+        directory.name = new_name
+    else:
+        path = get_parents_path(directory)
+        actual_directory = os.path.join(user_path, *path[::-1])
+        
+        os.rename (actual_directory, os.path.join(os.path.split(actual_directory)[:-1][0], new_name))
+        directory.name = new_name
+        
+    directory.save()
     
 
 @csrf_exempt

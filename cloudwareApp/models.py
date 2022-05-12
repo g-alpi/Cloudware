@@ -24,10 +24,10 @@ class Directory (models.Model):
 def file_path(file, filename):
     if file.parent != None:
         path = get_full_path(file.parent)
-        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, *path[::-1], filename)
+        return os.path.join('media', 'uploaded_files',file.owner.username, *path[::-1], filename)
     
     else:
-        return os.path.join(settings.MEDIA_ROOT, 'uploaded_files',file.owner.username, filename)
+        return os.path.join('media', 'uploaded_files',file.owner.username, filename)
 
 def get_full_path(directory):
     path = []
@@ -47,7 +47,7 @@ class File (models.Model):
     def __str__(self):
         return str(self.uploaded_file)
     def filename(self):
-        return os.path.basename(self.uploaded_file.name)
+        return os.path.basename(self.uploaded_file.name).split('.')[0]
     def extension(self):
         return os.path.splitext(self.uploaded_file.name)[1]
     def extensionText(self):
