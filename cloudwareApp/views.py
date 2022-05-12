@@ -147,7 +147,7 @@ def normalize_path(path):
 def cloudware_app(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
-    
+
     return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,

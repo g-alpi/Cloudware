@@ -3,6 +3,7 @@
     --main-color: #094C93;
     --light-main-color: #0C73B2;
     --secondary-color: #EAE1C8;
+    --folder-color: #EAE1C8;
     --light-color: #ffffff;
     --hover-light-color: #EAE1C8;
     --upload-buttons-color: #429B46;
@@ -265,8 +266,7 @@ header a:hover .circle-logo
 
 .resources
 {
-    max-width: 10%;
-    min-width: 10%;
+    width: 10rem;
 }
 
 .resource-name
@@ -337,3 +337,80 @@ header a:hover .circle-logo
     background-color: #DEF;
 }
 
+.folder 
+{
+    color: var(--folder-color);
+}
+
+.resources-grid {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.fa-file-standard-file::before{
+    content: "\f15b";
+}
+
+.fa-file-jpg::before,
+.fa-file-jpeg::before,
+.fa-file-jfif::before, 
+.fa-file-pjpeg::before,
+.fa-file-pjp::before, 
+.fa-file-png::before,
+.fa-file-gif::before
+{
+    content:"\f1c5";
+}
+
+.fa-file-mp3::before,
+.fa-file-m4a::before,
+.fa-file-ogg::before,
+.fa-file-oga::before,
+.fa-file-mogg::before,
+.fa-file-wav::before,
+.fa-file-flac::before
+{
+    content: "\f1c7";
+}
+.fa-file-csv::before
+{
+    content: "\f6dd";
+}
+.fa-file-xlsx::before,
+.fa-file-xlsm::before,
+.fa-file-xlsb::before,
+.fa-file-xltx::before
+{
+    content: "\f1c3";
+}
+
+.fa-file-txt::before
+{
+    content: "\f15c";
+}
+
+.fa-file-pdf::before
+{
+    content: "\f1c1";
+}
+
+.fa-file-doc::before,
+.fa-file-docx::before,
+.fa-file-docm::before,
+.fa-file-dot::before    
+{
+    content: "\f1c2";
+}
+
+.fa-file-mp4::before,
+.fa-file-mov::before,
+.fa-file-wmv::before,
+.fa-file-flv::before,
+.fa-file-avi::before,
+.fa-file-avchd::before,
+.fa-file-webm::before,
+.fa-file-mkv::before
+{
+    content: "\f1c8";
+}

@@ -4,27 +4,30 @@
 {% block body %} 
 <div class="file-manager-background d-flex flex-grow-1  container-fluid ">
         <div class="row flex-grow-1">
-            <div class="col-8 flex-grow-1 rounded-3 m-5 bg-light p-3 position-relative box-shadow" id="main_container">
+            <div class="col-8 flex-grow-1 rounded-3 m-5 bg-light p-4 position-relative box-shadow" id="main_container">
                 {% if directory %}
                         <input type="hidden" value="{{directory.pk}}" id="actual_directory">
                     {% endif %} 
-                    <div class=" d-flex flex-wrap  me-2">
+                    <div class="resources-grid me-2">
                         {% for i in directories %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources">
-                                    <i class="fa-solid fa-folder fa-4x"></i>
+                            <div class=" d-flex flex-grow-1 flex-column align-items-center align-content-start resources">
+                                <div class="p-3 folder">
+                                    <i class="fa-solid fa-folder fa-3x"></i>
+                                </div>
                                     <p class="parent resource-name">{{ i }}</p>
                                     <input type="hidden" value="{{i.pk}}" name="id">  
                             </div>
                         {% endfor %}
                         
                         {% for i in files %}
-                            <div class=" d-flex flex-column align-items-center align-content-start m-3 p-2 resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}">
-                                <i class="fa-solid fa-file fa-4x"></i>
+                            <div class=" d-flex flex-column flex-grow-1 align-items-center align-content-start resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}">
+                                <div class="p-3 file">
+                                    <i class="fa-solid fa-file-standard-file fa-file-{{i.extensionText}} fa-3x"></i>
+                                </div>
                                 <p class="resource-name">{{ i.filename}}</p>
                             </div>
                         {% endfor %}
                     </div>
-                    
                     {% if messages %}
                         <ul class="messages">
                             {% for message in messages %}
@@ -96,22 +99,22 @@
 </div>
 
 <div class="form-file-container bg-light p-5 ">
-    <h3 class="pb-3">Upload file</h3>
+    <h3 class="mb-3">Upload file</h3>
     <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data" class="d-flex flex-column">
         {% if directory %}
             <input type="hidden" value="{{directory.pk}}" name="parent_id">
         {% endif %}
-        <label for="files"> upload-file</label>
-        <input id="files" type="file" name="uploaded_file" style="visibility: hidden;">
-        <p id="filo"></p>
-        <input type="submit" value="Upload">
+        <input id="files" type="file" name="uploaded_file" style="display:none">
+        <p id="filo" class="mb-3 border-bottom broder-dark rounded-3 p-3"></p>
+        <label for="files" class="btn blue-btn mb-3 text-white">Select file to upload</label>
+        <input type="submit" class="btn btn-success" value="Upload file">
     </form>
 </div>
 
-<div class=" form-directory-container  border border-dark rounded bg-light p-5 ">
-    <h3 class="pb-3">Upload directory</h3>
-    <div class=" d-flex justify-content-center align-items-center">
-        <input id="new_file"type="text" placeholder="New directory name" class="me-2">
+<div class=" form-directory-container rounded bg-light p-5 ">
+    <h3 class="mb-3">Add directory</h3>
+    <div class=" d-flex flex-column">
+        <input id="new_file"type="text" placeholder="New Directory Name" class="mb-3 p-1">
         <button class="btn btn-success">Save</button>
     </div>
 
