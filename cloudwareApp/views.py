@@ -76,10 +76,11 @@ def save_new_file(uploaded_file, owner,parent = None):
 
 
 @login_required
+@csrf_exempt
 def downloadFile(request, fileId):
     file = authorizeFileAccess(request.user, fileId)
     filePath = str(file.uploaded_file)
-    fileName = str(file.uploaded_file).split(os.sep)[-1]
+    fileName = os.path.basename(file.uploaded_file.name)
     try:
         return obtainFile(filePath, fileName)
     except FileNotFoundError:
