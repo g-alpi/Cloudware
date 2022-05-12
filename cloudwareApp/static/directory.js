@@ -122,6 +122,16 @@ function delete_source(source_pk,source_type) {
     });
 }
 
+function download_file (source_pk) {
+    $.ajax({
+        url: "http://"+window.location.host+"/download_file/"+source_pk,
+        type: "POST",
+        success: function (response) {
+            window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
+        }
+    });
+}
+
 
 
 function click_outside_edit_source(container) {
@@ -246,8 +256,10 @@ function right_click_edit_resources() {
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
-            case "first": delete_source(source_pk,source_type); break;
+            case "first": download_file(source_pk); break;
             case "second": edit_source_name(source_pk,source_name,source_type); break;
+            case "third": share_file(); break;
+            case "fourth": delete_source(source_pk,source_type); break;
         }
 
         // Hide it AFTER the action was triggered
