@@ -168,6 +168,8 @@ def calculate_new_file_paths(file, new_file_name):
     
 def normalize_path(path):
     return  os.path.normpath(path)
+
+
     
 
 @login_required 
@@ -277,11 +279,11 @@ def rename_directory(directory, new_name):
         
     directory.save()
     
-
+@require_POST
 @csrf_exempt
 def shareFile(request, fileId):
     fileToShare = File.objects.get(pk = fileId)
-    userEmail = request.user.mail
+    userEmail = request.user.email
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
     for email in emails:
