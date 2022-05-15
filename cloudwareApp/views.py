@@ -326,18 +326,21 @@ def newShareDirectory(userEmail, directory):
     newShareDirectory = SharedDirectory(directory = directory, user = user)
     newShareDirectory.save()
     
-    directory_files = File.objects.filter(parent = directory)
-    for i in directory_files:
-        newShareFile(userEmail, i)
+    files = File.objects.filter(parent = directory)
+    for file in files:
+        newShareFile(userEmail, file)
     
-    get_all_children_directory(directory,user)
+    get_all_children_directory(directory,user,userEmail)
     
-def get_all_children_directory(directory,user):
+def get_all_children_directory(directory,user,userEmail):
     directories = Directory.objects.filter(parent = directory)
     for i in directories:
+        files = File.objects.filter(parent = i)
+        for file in files:
+            newShareFile(userEmail, file)
         newShareDirectory = SharedDirectory(directory = i, user = user)
         newShareDirectory.save()
-        get_all_children_directory(i,user)
+        get_all_children_directory(i,user,userEmail)
 
 def validateEmail(possibleEmail):
     regexToValidateEmail = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
