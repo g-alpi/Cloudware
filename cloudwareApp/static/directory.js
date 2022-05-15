@@ -33,8 +33,8 @@ function create_directory() {
     $('.btn').click(function (e) { 
         create_directory_call();
     });
-
 }
+
 function create_directory_call(){
     let name = $('#new_file').val();
     let parent_id = $('#actual_directory').val();

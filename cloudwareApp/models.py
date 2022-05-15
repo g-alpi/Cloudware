@@ -72,4 +72,4 @@ class SharedDirectory (models.Model):
         verbose_name_plural = "Shared Directories"
 
     def __str__(self):
-        return self.directoy.name + ' -> ' + self.user.username
+        return self.directory.name + ' -> ' + self.user.username

@@ -16,6 +16,7 @@ urlpatterns = [
     path('cloudware-app', cloudware_app, name='cloudware_app'),
     path('profile', profile, name='profile'),
     path('share-file/<int:fileId>', shareFile, name="shareFile"),
+    path('share-directory/<int:directoryId>', share_directory, name="shareDirectory"),
     path('upload_file', upload_file, name='upload_file'),
     path('delete_file', delete_file, name='delete_file'),
     path('delete_directory', delete_directory, name='delete_directory'),

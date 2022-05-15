@@ -176,10 +176,13 @@ def normalize_path(path):
 def cloudware_app(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
-
+    shared_files = SharedFile.objects.filter(user = request.user)
+    shared_directories = SharedDirectory.objects.filter(user = request.user)
     return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,
+        "shared_files": shared_files,
+        "shared_directories": shared_directories,
     })
 
     
@@ -296,16 +299,53 @@ def shareFile(request, fileId):
                 emailsRejected.append(email)
     return redirect("cloud:upload")
 
+def newShareFile(userEmail, fileToShare):
+    user = User.objects.get(email = userEmail)
+    newShareFile = SharedFile(file = fileToShare, user = user)
+    newShareFile.save()
+
+@require_POST
+@csrf_exempt
+def share_directory(request, directoryId):
+    directory = Directory.objects.get(pk = directoryId)
+    userEmail = request.user.email
+    emails = re.split(' , |, |,', request.POST["mails"])
+    emailsRejected = []
+    for email in emails:
+        if (not validateEmail(email) or email == userEmail):
+            emailsRejected.append(email)
+        else:
+            try:
+                newShareDirectory(email, directory)
+            except:
+                emailsRejected.append(email)
+    return redirect("cloud:upload")
+
+def newShareDirectory(userEmail, directory):
+    user = User.objects.get(email = userEmail)
+    newShareDirectory = SharedDirectory(directory = directory, user = user)
+    newShareDirectory.save()
+    
+    directory_files = File.objects.filter(parent = directory)
+    for i in directory_files:
+        newShareFile(userEmail, i)
+    
+    get_all_children_directory(directory,user)
+    
+def get_all_children_directory(directory,user):
+    directories = Directory.objects.filter(parent = directory)
+    for i in directories:
+        newShareDirectory = SharedDirectory(directory = i, user = user)
+        newShareDirectory.save()
+        get_all_children_directory(i,user)
+
 def validateEmail(possibleEmail):
     regexToValidateEmail = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
     if (re.search(regexToValidateEmail, possibleEmail)):
         return True
     return False
 
-def newShareFile(userEmail, fileToShare):
-    user = User.objects.get(email = userEmail)
-    newShareFile = SharedFile(file = fileToShare, user = user)
-    newShareFile.save()
+
 
 
 def login_view(request):
