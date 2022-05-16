@@ -10,7 +10,7 @@
                     {% endif %} 
                     <div class="resources-grid me-2">
                         {% for i in directories %}
-                            <div class=" d-flex flex-grow-1 flex-column align-items-center align-content-start resources">
+                            <div class=" d-flex flex-grow-1 flex-column align-items-center align-content-start resources" data-type="directory" data-id="{{i.pk}}" data-name="{{i.name}}">
                                 <div class="p-3 folder">
                                     <i class="fa-solid fa-folder fa-3x"></i>
                                 </div>
@@ -83,6 +83,7 @@
                 </div>
             </div>
         </div>
+        
 </div>
 <ul class='upload-menu'>
     <li data-action="first">New file</li>
@@ -118,7 +119,13 @@
         <input id="new_file"type="text" placeholder="New Directory Name" class="mb-3 p-1">
         <button class="btn btn-success">Save</button>
     </div>
-
+</div>
+<div class="form-share-container rounded bg-light p-5 ">
+    <h3 class="mb-3">Share </h3>
+    <div class=" d-flex flex-column">
+        <input id="share-emails"type="text" placeholder="example@gmail.com" class="mb-3 p-1">
+        <button class="btn btn-success">Send</button>
+    </div>
 </div>
 
 <script src="{% static 'directory.js' %}"></script>

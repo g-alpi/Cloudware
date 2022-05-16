@@ -284,7 +284,7 @@ header a:hover .circle-logo
     opacity: 0.5;
 }
 
-.form-file-container,.form-directory-container
+.form-file-container,.form-directory-container, .form-share-container
 {
     position: absolute;
     top: 50%;
@@ -293,7 +293,7 @@ header a:hover .circle-logo
     width: 600px;
 }
 
-.form-file-container,.form-directory-container, .dark-background
+.form-file-container,.form-directory-container,.form-share-container, .dark-background
 {
     display: none ;
 }

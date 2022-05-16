@@ -33,8 +33,8 @@ function create_directory() {
     $('.btn').click(function (e) { 
         create_directory_call();
     });
-
 }
+
 function create_directory_call(){
     let name = $('#new_file').val();
     let parent_id = $('#actual_directory').val();
@@ -51,10 +51,18 @@ function create_directory_call(){
     });
 }
 
-
-function cerate_file() {
+function create_file() {
     form_file_toogle();
     click_outside_file_form();
+}
+
+function share_source(source_pk,source_type) {
+    form_share_toogle();
+    click_outside_share_form();
+
+    $('.btn').click(function (e) { 
+        link_share_sorces(source_pk,source_type);
+    });
 }
 
 function form_directory_toogle() {
@@ -63,6 +71,10 @@ function form_directory_toogle() {
 }
 function form_file_toogle() {
     $('.form-file-container').toggle();
+    $('.dark-background').toggle();
+}
+function form_share_toogle() {
+    $('.form-share-container').toggle();
     $('.dark-background').toggle();
 }
 function click_outside_directory_form() {
@@ -78,9 +90,17 @@ function click_outside_file_form() {
     });
 }
 
+function click_outside_share_form() {
+    $('.dark-background').click(function (e) { 
+        e.preventDefault();
+        $('.form-share-container').hide();
+        $('.dark-background').hide();
+    });
+}
+
 function event_click_upload_file_icon() {
     $("#add-file").click(function(){
-        cerate_file();
+        create_file();
     });
 }
 function event_click_uplaod_directory_icon() {
@@ -128,6 +148,23 @@ function download_file (source_pk) {
         type: "POST",
         success: function (response) {
             window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
+        }
+    });
+}
+
+function link_share_sorces(source_pk,source_type) {
+    emails = $('#share-emails').val();
+    $.ajax({
+        url: "http://"+window.location.host+"/share-"+source_type +"/"+source_pk,
+        type: "POST",
+        data: {
+            id: source_pk,
+            mails: emails,
+            type: source_type,
+        },
+        success: function(response){
+            console.log(response);
+            location.reload();
         }
     });
 }
@@ -206,7 +243,7 @@ function right_click_upload_resources() {
         switch($(this).attr("data-action")) {
             
             // A case for each action. Your actions here
-            case "first": cerate_file(); break;
+            case "first": create_file(); break;
             case "second": create_directory(); break;
         }
     
@@ -258,7 +295,7 @@ function right_click_edit_resources() {
             // A case for each action. Your actions here
             case "first": download_file(source_pk); break;
             case "second": edit_source_name(source_pk,source_name,source_type); break;
-            case "third": share_file(); break;
+            case "third": share_source(source_pk,source_type); break;
             case "fourth": delete_source(source_pk,source_type); break;
         }
 
