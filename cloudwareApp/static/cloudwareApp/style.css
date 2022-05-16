@@ -323,6 +323,10 @@ header a:hover .circle-logo
     padding: 0;
 }
 
+.shared_files,.my_files{
+    cursor: pointer;
+}
+
 
 /* Each of the items in the list */
 .upload-menu li, .file-menu li {

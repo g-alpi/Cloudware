@@ -63,7 +63,7 @@ def upload_file(request):
             messages.error(request, 'The path is too long, revise your folders')
             return redirect('cloud:get_directory', parent_id)
         
-    return redirect("cloud:upload")
+    return redirect("cloud:cloudware_app")
 
 def save_new_file(uploaded_file, owner,parent = None):  
     document = File(
@@ -173,18 +173,44 @@ def normalize_path(path):
     
 
 @login_required 
-def cloudware_app(request):
+def file_manager(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
-    shared_files = SharedFile.objects.filter(user = request.user)
-    shared_directories = SharedDirectory.objects.filter(user = request.user)
     return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,
-        "shared_files": shared_files,
-        "shared_directories": shared_directories,
     })
-
+    
+@login_required
+def shared_sources(request):
+    shared_files = SharedFile.objects.filter(user = request.user)
+    shared_directories = SharedDirectory.objects.filter(user = request.user)
+    
+    files = []
+    for i in shared_files:
+        if i.file.parent == None:
+            files.append(i.file)
+    directories = []
+    for i in shared_directories:
+        if i.directory.parent == None:
+            directories.append(i.directory)
+        
+    return render(request, "shared_sources.html", context = {
+        "files": files,
+        "directories": directories,
+    })
+    
+@require_GET
+@csrf_exempt
+def get_share_directory (request, dir_id):
+    directory = Directory.objects.get(pk = dir_id)
+    files = File.objects.filter(parent = directory)
+    directories = Directory.objects.filter(parent = directory)
+    return render(request, "shared_sources.html", context = {
+        'directory':directory,
+        "files": files,
+        "directories": directories,
+    })
     
 @require_GET
 @csrf_exempt
