@@ -3,8 +3,7 @@ $(document).ready(function () {
     event_click_resources();
     right_click_upload_resources();
     right_click_edit_resources();
-    event_click_upload_file_icon();
-    event_click_uplaod_directory_icon();
+    event_click_interact_icons();
     event_click_shared_files();
 
 });
@@ -37,18 +36,31 @@ function create_directory() {
 
 function create_directory_call(){
     let name = $('#new_file').val();
-    let parent_id = $('#actual_directory').val();
-    $.ajax({
-        url: "http://"+window.location.host+"/create_directory",
-        type: "POST",
-        data: {
-            name: name,
-            parent_id: parent_id,
-        },
-        success: function(response){
-            window.location.reload();
-        }
-    });
+    if(validate_directory_name(name)){
+        let parent_id = $('#actual_directory').val();
+        $.ajax({
+            url: "http://"+window.location.host+"/create_directory",
+            type: "POST",
+            data: {
+                name: name,
+                parent_id: parent_id,
+            },
+            success: function(response){
+                window.location.reload();
+            }
+        });
+    }
+    else{
+        alert('Invalid directory name');
+    }
+}
+function validate_directory_name(name){
+    let regex = /^[^\s^\x00-\x1f\\?*:"";<>|\/.][^\x00-\x1f\\?*:"";<>|\/]*[^\s^\x00-\x1f\\?*:"";<>|\/.]+$/g;
+    if(regex.test(name)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function create_file() {
@@ -98,15 +110,43 @@ function click_outside_share_form() {
     });
 }
 
-function event_click_upload_file_icon() {
-    $("#add-file").click(function(){
-        create_file();
+function event_click_interact_icons() {
+    $(".rounded-circle").click(function(e){
+        e.preventDefault();
+        switch (this.id) {
+            case 'add-file':
+                create_file();
+                break;
+            case 'remove-file':
+                delete_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                break;
+            case 'share-file':
+                if($('.active').attr('data-type')=='file'){
+                    share_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                }
+                else{
+                    alert('You have to select a file');
+                }
+                break;
+            case 'add-directory':
+                create_directory();
+                break;
+            case 'remove-directory':
+                delete_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                break;
+            case 'share-directory':
+                if ($('.active').attr('data-type') == 'directory') {
+                    share_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                }
+                else{
+                    alert('You have to select a directory');
+                }
+                break;
+            default:
+                break;
+        }
     });
-}
-function event_click_uplaod_directory_icon() {
-    $("#add-directory").click(function(){
-        create_directory();
-    });
+    
 }
 
 
