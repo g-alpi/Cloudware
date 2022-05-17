@@ -5,7 +5,7 @@ $(document).ready(function () {
     right_click_edit_resources();
     event_click_upload_file_icon();
     event_click_uplaod_directory_icon();
-
+    event_click_shared_files();
 
 });
 
@@ -117,6 +117,15 @@ function event_click_resources() {
 
     });
 }
+
+function event_click_shared_files(){
+    $('.shared_files').click(function (e) { 
+        e.preventDefault();
+        window.location.href = "http://"+window.location.host+"/cloudware-app/shared-files";
+    });
+}
+
+
 function edit_source_name(source_pk,source_name,source_type) {
 
     let container = $('[data-id="'+source_pk+'"][data-type="'+source_type+'"]');
@@ -146,9 +155,10 @@ function download_file (source_pk) {
     $.ajax({
         url: "http://"+window.location.host+"/download_file/"+source_pk,
         type: "POST",
-        success: function (response) {
+        success: function(response){
             window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
         }
+        
     });
 }
 

@@ -39,15 +39,15 @@
             <div class="col-2 offset-2 border-dark rounded m-5 bg-light box-shadow d-flex flex-column" >
                 <div class="row">
                     <div class="col py-3 mt-3">
-                        <p class="text-center fs-3 m-0">Cloudware</p>
+                        <p class="text-center fs-3 m-0 my_files">Cloudware</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col py-3">
-                        <p class="text-center fs-3 m-0 shared_files">Shared Files</p>
+                        <p class="text-center fs-3 m-0 ">Shared Files</p>
                     </div>
                 </div>
-                <div class="row flex-grow-1">
+                <!-- <div class="row flex-grow-1">
                     <div class="col d-flex flex-column flex-grow-1">
                         <div class="mt-auto pb-3 px-3 d-flex justify-content-around">
                             <div id="file-management" class="d-flex flex-column-reverse py-3 px-2 resources-management mt-auto">
@@ -80,62 +80,18 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         
 </div>
-<ul class='upload-menu'>
-    <li data-action="first">New file</li>
-    <li data-action="second">New directory</li>
-</ul>
 
 <ul class='file-menu'>
     <li data-action="first">Download</li>
-    <li data-action="second">Edit name</li>
-    <li data-action="third">Share</li>
-    <li data-action="fourth">Remove</li>
 </ul>
 
-<div class="dark-background flex-grow-1 ">
-</div>
+<script src="{% static 'cloudwareApp/shared_sources.js' %}"></script>
 
-<div class="form-file-container bg-light p-5 ">
-    <h3 class="mb-3">Upload file</h3>
-    <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data" class="d-flex flex-column">
-        {% if directory %}
-            <input type="hidden" value="{{directory.pk}}" name="parent_id">
-        {% endif %}
-        <input id="files" type="file" name="uploaded_file" style="display:none">
-        <p id="file-to-upload" class="mb-3 border-bottom broder-dark rounded-3 p-3"></p>
-        <label for="files" class="btn blue-btn mb-3 text-white">Select file to upload</label>
-        <input type="submit" class="btn btn-success" value="Upload file">
-    </form>
-</div>
-
-<div class=" form-directory-container rounded bg-light p-5 ">
-    <h3 class="mb-3">Add directory</h3>
-    <div class=" d-flex flex-column">
-        <input id="new_file"type="text" placeholder="New Directory Name" class="mb-3 p-1">
-        <button class="btn btn-success">Save</button>
-    </div>
-</div>
-<div class="form-share-container rounded bg-light p-5 ">
-    <h3 class="mb-3">Share </h3>
-    <div class=" d-flex flex-column">
-        <input id="share-emails"type="text" placeholder="example@gmail.com" class="mb-3 p-1">
-        <button class="btn btn-success">Send</button>
-    </div>
-</div>
-
-<script src="{% static 'cloudwareApp/cloudware_app.js' %}"></script>
-<script>
-    $("#files").change(function() {
-        filename = this.files[0].name;
-        console.log(filename);
-        $("#file-to-upload").text(filename);
-    });
-</script>
 {% endblock %}
 
 
