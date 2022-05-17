@@ -2,6 +2,7 @@ $(document).ready(function () {
     directory_redidect();
     event_click_resources();
     right_click_edit_resources();
+    event_click_my_files();
 });
 
 function directory_redidect(){
@@ -35,6 +36,13 @@ function download_file (source_pk) {
             window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
         }
         
+    });
+}
+
+function event_click_my_files(){
+    $('.my_files').click(function (e) { 
+        e.preventDefault();
+        window.location.href = "http://"+window.location.host+"/cloudware-app";
     });
 }
 
