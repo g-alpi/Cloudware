@@ -1,10 +1,13 @@
 {% extends 'base_templates/base_template_header.html' %}
 {% load static %}
 
-{% block body %} 
+{% block body %}
+<div class="bg-secondary-color">
+    {% include 'template_parts/breadcrumbs.html' %}
+</div>
 <div class="file-manager-background d-flex flex-grow-1  container-fluid ">
         <div class="row flex-grow-1">
-            <div class="col-8 flex-grow-1 rounded-3 m-5 bg-light p-4 position-relative box-shadow" id="main_container">
+            <div class="col-8 flex-grow-1 rounded-3 m-5 mt-0 bg-light p-4 position-relative box-shadow" id="main_container">
                 {% if directory %}
                         <input type="hidden" value="{{directory.pk}}" id="actual_directory">
                     {% endif %} 
@@ -36,7 +39,7 @@
                         </ul>
                     {% endif %}                    
                 </div>
-            <div class="col-2 offset-2 border-dark rounded m-5 bg-light box-shadow d-flex flex-column" >
+            <div class="col-2 offset-2 border-dark rounded m-5 mt-0 bg-light box-shadow d-flex flex-column" >
                 <div class="row">
                     <div class="col py-3 mt-3">
                         <p class="text-center fs-3 m-0">Cloudware</p>

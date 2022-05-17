@@ -227,11 +227,21 @@ def get_directory (request, dir_id):
     directory = Directory.objects.get(pk = dir_id)
     files = File.objects.filter(parent = directory)
     directories = Directory.objects.filter(parent = directory)
+    breadcrumbs = get_breadcrumbs(directory)
     return render(request, "cloudware_app.html", context = {
         'directory':directory,
         "files": files,
         "directories": directories,
+        "breadcrumbs": breadcrumbs,
     })
+
+def get_breadcrumbs(directory):
+    directoryToCheck = directory
+    breadcrumbsList = [directoryToCheck]
+    while directoryToCheck.parent is not None:
+        directoryToCheck = directoryToCheck.parent
+        breadcrumbsList.insert(0, directoryToCheck)
+    return breadcrumbsList
 
 @require_POST
 @csrf_exempt

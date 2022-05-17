@@ -352,6 +352,16 @@ header a:hover .circle-logo
     grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
 }
 
+.no-bullet {
+    list-style-type: none;
+}
+
+.breadcrumbs li:last-child > a {
+    color: black;
+    pointer-events: none;
+    font-weight: bold;
+}
+
 .fa-file-standard-file::before{
     content: "\f15b";
 }
