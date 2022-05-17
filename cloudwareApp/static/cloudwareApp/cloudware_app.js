@@ -14,9 +14,9 @@ function directory_redidect(){
         let id = $(this).parent().attr('data-id');
         $.ajax({
             type: "GET",
-            url: "http://"+window.location.host+"/directory/"+id,
+            url: "http://"+window.location.host+"/cloudware-app/"+id,
             success: function (response) {
-                window.location.href = "http://"+window.location.host+"/directory/"+id;
+                window.location.href = "http://"+window.location.host+"/cloudware-app/"+id;
             }
         });
     });
