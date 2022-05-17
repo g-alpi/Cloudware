@@ -77,17 +77,26 @@ def save_new_file(uploaded_file, owner,parent = None):
 
 @login_required
 @csrf_exempt
+
 def downloadFile(request, fileId):
     file = authorizeFileAccess(request.user, fileId)
     filePath = str(file.uploaded_file)
     fileName = os.path.basename(file.uploaded_file.name)
+    print(fileName)
+    print(file.owner)
+    print(request.user)
     try:
         return obtainFile(filePath, fileName)
     except FileNotFoundError:
         raise Http404
 
 def authorizeFileAccess(user, fileId):
-    return get_object_or_404(File, pk = fileId, owner = user.pk)
+    file = get_object_or_404(File, pk = fileId)
+    if user == file.owner:
+        print("True")
+        return file
+    sharedFile = get_object_or_404(SharedFile, file = file, user = user)
+    return sharedFile.file
 
 def obtainFile(filePath, fileName):
     absoluteFilePath = getAbsoluteFilePath(filePath)

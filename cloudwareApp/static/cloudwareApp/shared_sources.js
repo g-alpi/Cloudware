@@ -31,13 +31,10 @@ function download_file (source_pk) {
     $.ajax({
         url: "http://"+window.location.host+"/download_file/"+source_pk,
         type: "POST",
-        data: {
-            owner: "False",
-        },
         success: function(response){
-            console.log(response);
-            location.reload();
+            window.location.href = "http://"+window.location.host+"/download_file/"+source_pk;
         }
+        
     });
 }
 
