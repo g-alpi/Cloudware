@@ -240,20 +240,29 @@ def create_directory(request):
     check_upload_directory()
     
     user_dir = check_user_directory(request.user)  
-    dir_name = request.POST.get('name')
+    dir_name = request.POST['name']
     path=[]
     
-    if request.POST.get('parent_id') == None:
-        new_directory(user_dir,dir_name,request.user)
-        
-    else:
-        
-        actual_directory = Directory.objects.get(pk = request.POST.get('parent_id'))
-        path = get_parents_path(actual_directory)
-        user_dir = os.path.join(user_dir,*path[::-1]) 
-        new_directory(user_dir,dir_name,request.user,actual_directory)
-        
-    return render(request, 'cloudware_app.html')
+    if validate_directory_name(dir_name) == True:
+        if request.POST.get('parent_id') == None:
+            new_directory(user_dir,dir_name,request.user)
+
+        else:
+            
+            actual_directory = Directory.objects.get(pk = request.POST.get('parent_id'))
+            path = get_parents_path(actual_directory)
+            user_dir = os.path.join(user_dir,*path[::-1]) 
+            new_directory(user_dir,dir_name,request.user,actual_directory) 
+        return render(request, 'cloudware_app.html')
+    messages.error(request, 'Incorrect Directory name')
+    actual_url = request.META.get('HTTP_REFERER')
+    return redirect(actual_url)
+
+def validate_directory_name(name):
+    regex_to_validate_name =  r"^[^\s^\x00-\x1f\\?*:\"\";<>|\/.][^\x00-\x1f\\?*:\"\";<>|\/]*[^\s^\x00-\x1f\\?*:\"\";<>|\/.]+$"
+    if (re.search(regex_to_validate_name, name)):
+        return True
+    return False
 
 def check_media_directory():
     media_path = os.path.join(settings.BASE_DIR, 'media')

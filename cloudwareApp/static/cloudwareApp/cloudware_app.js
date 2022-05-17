@@ -37,18 +37,31 @@ function create_directory() {
 
 function create_directory_call(){
     let name = $('#new_file').val();
-    let parent_id = $('#actual_directory').val();
-    $.ajax({
-        url: "http://"+window.location.host+"/create_directory",
-        type: "POST",
-        data: {
-            name: name,
-            parent_id: parent_id,
-        },
-        success: function(response){
-            window.location.reload();
-        }
-    });
+    if(validate_directory_name(name)){
+        let parent_id = $('#actual_directory').val();
+        $.ajax({
+            url: "http://"+window.location.host+"/create_directory",
+            type: "POST",
+            data: {
+                name: name,
+                parent_id: parent_id,
+            },
+            success: function(response){
+                window.location.reload();
+            }
+        });
+    }
+    else{
+        alert('Invalid directory name');
+    }
+}
+function validate_directory_name(name){
+    let regex = /^[^\s^\x00-\x1f\\?*:"";<>|\/.][^\x00-\x1f\\?*:"";<>|\/]*[^\s^\x00-\x1f\\?*:"";<>|\/.]+$/g;
+    if(regex.test(name)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function create_file() {
