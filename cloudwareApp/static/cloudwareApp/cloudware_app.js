@@ -214,8 +214,17 @@ function link_share_sorces(source_pk,source_type) {
             type: source_type,
         },
         success: function(response){
-            console.log(response);
-            location.reload();
+            console.log(response['emailError']);
+            if (response['emailError'] != 'null'){
+                $('#share-emails').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">'+response['emailError']+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+            }
+            else{
+                $('#share-emails').before('<div class="alert alert-success alert-dismissible fade show" role="alert">'+response['success']+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
+                setTimeout(function(){
+                    $('.alert').alert('close');
+                    form_share_toogle();
+                }, 2000);
+            }
         }
     });
 }

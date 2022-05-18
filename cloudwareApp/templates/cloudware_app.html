@@ -22,9 +22,11 @@
                             </div>
                         {% endfor %}
                         {% for i in files %}
-                        <div class=" d-flex flex-column flex-grow-1 align-items-center align-content-start resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}">
-                            <div class="p-3 file">
-                                <i class="fa-solid fa-file-standard-file fa-file-{{i.extensionText}} fa-3x"></i>
+                            <div class=" d-flex flex-column flex-grow-1 align-items-center align-content-start resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}" data-extension="{{i.extension}}">
+                                <div class="p-3 file">
+                                    <i class="fa-solid fa-file-standard-file fa-file-{{i.extensionText}} fa-3x"></i>
+                                </div>
+                                <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
                             </div>
                             <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
                         </div>
@@ -43,7 +45,7 @@
                             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
                             {% endfor %}
                         </ul>
-                    {% endif %}                    
+                    {% endif %}                                            
                 </div>
             <div class="col-2 offset-2 border-dark rounded m-5 mt-0 bg-light box-shadow d-flex flex-column" >
                 <div class="row">
