@@ -21,7 +21,6 @@
                                     <input type="hidden" value="{{i.pk}}" name="id">  
                             </div>
                         {% endfor %}
-                        
                         {% for i in files %}
                             <div class=" d-flex flex-column flex-grow-1 align-items-center align-content-start resources" data-type="file" data-id="{{i.pk}}" data-name="{{i.filename}}" data-extension="{{i.extension}}">
                                 <div class="p-3 file">
@@ -29,7 +28,16 @@
                                 </div>
                                 <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
                             </div>
+                            <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
+                        </div>
                         {% endfor %}
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                     {% if messages %}
                         <ul class="messages">
@@ -42,12 +50,12 @@
             <div class="col-2 offset-2 border-dark rounded m-5 mt-0 bg-light box-shadow d-flex flex-column" >
                 <div class="row">
                     <div class="col py-3 mt-3">
-                        <p class="text-center fs-3 m-0">Cloudware</p>
+                        <p class="text-center bg-primary-color-gradient rounded-3 text-white fs-3 m-0">Cloudware</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col py-3">
-                        <p class="text-center fs-3 m-0 shared_files">Shared Files</p>
+                        <p class="text-center change-function fs-3 m-0 shared_files">Shared Files</p>
                     </div>
                 </div>
                 <div class="row flex-grow-1">

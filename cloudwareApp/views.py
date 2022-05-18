@@ -218,10 +218,12 @@ def get_share_directory (request, dir_id):
     directory = Directory.objects.get(pk = dir_id)
     files = File.objects.filter(parent = directory)
     directories = Directory.objects.filter(parent = directory)
+    breadcrumbs = get_breadcrumbs(directory)
     return render(request, "shared_sources.html", context = {
         'directory':directory,
         "files": files,
         "directories": directories,
+        "breadcrumbs": breadcrumbs
     })
     
 @require_GET

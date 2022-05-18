@@ -1,10 +1,13 @@
 {% extends 'base_templates/base_template_header.html' %}
 {% load static %}
 
-{% block body %} 
+{% block body %}
+<div class="bg-secondary-color">
+    {% include 'template_parts/breadcrumbs.html' %}
+</div> 
 <div class="file-manager-background d-flex flex-grow-1  container-fluid ">
         <div class="row flex-grow-1">
-            <div class="col-8 flex-grow-1 rounded-3 m-5 bg-light p-4 position-relative box-shadow" id="main_container">
+            <div class="col-8 flex-grow-1 rounded-3 m-5 mt-0 bg-light p-4 position-relative box-shadow" id="main_container">
                 {% if directory %}
                         <input type="hidden" value="{{directory.pk}}" id="actual_directory">
                     {% endif %} 
@@ -36,51 +39,17 @@
                         </ul>
                     {% endif %}                    
                 </div>
-            <div class="col-2 offset-2 border-dark rounded m-5 bg-light box-shadow d-flex flex-column" >
+            <div class="col-2 offset-2 border-dark rounded m-5 mt-0 bg-light box-shadow d-flex flex-column" >
                 <div class="row">
                     <div class="col py-3 mt-3">
-                        <p class="text-center fs-3 m-0 my_files">Cloudware</p>
+                        <p class="text-center change-function fs-3 m-0 my_files">Cloudware</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col py-3">
-                        <p class="text-center fs-3 m-0 ">Shared Files</p>
+                        <p class="text-center bg-primary-color-gradient rounded-3 text-white fs-3 m-0 ">Shared Files</p>
                     </div>
                 </div>
-                <!-- <div class="row flex-grow-1">
-                    <div class="col d-flex flex-column flex-grow-1">
-                        <div class="mt-auto pb-3 px-3 d-flex justify-content-around">
-                            <div id="file-management" class="d-flex flex-column-reverse py-3 px-2 resources-management mt-auto">
-                                <div class="rounded-circle p-3 info-resource">
-                                    <i class="fa-solid fa-file fa-2x"></i>
-                                </div>
-                                <div id="add-file" class="rounded-circle p-3 add-resource mb-3">
-                                    <i class="fa-solid fa-file-circle-plus fa-2x"></i>
-                                </div>
-                                <div id="remove-file" class="rounded-circle remove-resource p-3 mb-3">
-                                    <i class="fa-solid fa-file-circle-minus fa-2x"></i>
-                                </div>
-                                <div id="remove-user" class="rounded-circle share-resource p-3 mb-3">
-                                    <i class="fa-solid fa-share fa-2x"></i>
-                                </div>
-                            </div>
-                            <div id="directory-management" class="d-flex flex-column-reverse py-3 px-2 resources-management mt-auto">
-                                <div class="rounded-circle p-3 info-resource">
-                                    <i class="fa-solid fa-folder fa-2x"></i>
-                                </div>
-                                <div id="add-directory" class="rounded-circle p-3 add-resource mb-3">
-                                    <i class="fa-solid fa-folder-plus fa-2x"></i>
-                                </div>
-                                <div id="remove-directory" class="rounded-circle remove-resource p-3 mb-3">
-                                    <i class="fa-solid fa-folder-minus fa-2x"></i>
-                                </div>
-                                <div id="remove-directory" class="rounded-circle share-resource p-3 mb-3">
-                                    <i class="fa-solid fa-share fa-2x"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
         </div>
         
