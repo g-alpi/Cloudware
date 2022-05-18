@@ -78,6 +78,19 @@ a.active
     display: none;
 }
 
+.change-function{
+    color: black;
+    background-color: transparent;
+    transition: color 500ms, background-color 500ms;
+    border-radius: 0.3rem;
+}
+
+.change-function:hover{
+    color: white;
+    background-color: var(--main-color);
+    transition: color 500ms, background-color 500ms;
+}
+
 .modify-form
 {
     top: 50%;
