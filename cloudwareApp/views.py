@@ -514,6 +514,7 @@ def update_username(request):
     userToUpdate = authenticate(username=request.user.username, password=request.POST['password'])
     if userToUpdate is not None:
         userToUpdate.username = request.POST["newUsername"]
+        os.rename(os.path.join('media','uploaded_files',str(request.user)),os.path.join('media','uploaded_files',userToUpdate.username))
         userToUpdate.save()
         return redirect('cloud:profile')
     
