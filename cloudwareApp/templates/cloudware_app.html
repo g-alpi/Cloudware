@@ -110,7 +110,7 @@
 <div class="dark-background flex-grow-1 ">
 </div>
 
-<div class="form-file-container bg-light p-5 ">
+<div class="form-container form-file-container bg-light p-5 ">
     <h3 class="mb-3">Upload file</h3>
     <form action="{% url 'cloud:upload_file' %}" method="POST" enctype="multipart/form-data" class="d-flex flex-column">
         {% if directory %}
@@ -123,19 +123,29 @@
     </form>
 </div>
 
-<div class=" form-directory-container rounded bg-light p-5 ">
+<div class="form-container form-directory-container rounded bg-light p-5 ">
     <h3 class="mb-3">Add directory</h3>
     <div class=" d-flex flex-column">
         <input id="new_directory"type="text" placeholder="New Directory Name" class="mb-3 p-1">
         <button class="btn btn-success">Save</button>
     </div>
 </div>
-<div class="form-share-container rounded bg-light p-5 ">
+<div class="form-container form-share-container rounded bg-light p-5 ">
     <h3 class="mb-3">Share </h3>
     <div class=" d-flex flex-column">
         <input id="share-emails"type="text" placeholder="example@gmail.com" class="mb-3 p-1">
         <button class="btn btn-success">Send</button>
     </div>
+</div>
+
+<div class="form-container form-delete-container bg-light p-5 ">
+    <h3 class="mb-3">Delete Resource</h3>
+    <form id="delete-form" action="" method="POST" class="d-flex flex-column">
+        {% csrf_token %}
+        <input id="resource_id" type="hidden" value="" name="id">
+        <p></p>
+        <input type="submit" class="btn btn-danger" value="Delete">
+    </form>
 </div>
 
 <script src="{% static 'cloudwareApp/cloudware_app.js' %}"></script>
@@ -147,5 +157,3 @@
     });
 </script>
 {% endblock %}
-
-

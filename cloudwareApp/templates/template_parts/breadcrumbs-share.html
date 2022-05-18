@@ -1,0 +1,7 @@
+<ul class="d-flex no-bullet m-0 py-3 breadcrumbs">
+    <li class="mx-2 px-2"><a href="{% url 'cloud:shared_files' %}" class="text-decoration-none">Shared Files Home</a></li>
+    {% for directory in breadcrumbs %}
+    >
+    <li class="mx-2 px-2"><a href="{% url 'cloud:cloudware_app_get_directory' dir_id=directory.pk %}" class="text-decoration-none">{{directory.name}}</a></li>
+    {% endfor %}
+</ul>
