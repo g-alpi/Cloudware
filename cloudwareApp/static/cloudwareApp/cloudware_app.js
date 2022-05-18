@@ -330,11 +330,18 @@ function right_click_edit_resources() {
         // Show contextmenu
         $(".file-menu").finish().toggle(100).
         
+        
         // In the right position (the mouse)
         css({
             top: event.pageY + "px",
             left: event.pageX + "px"
         });
+        if (source_type == 'directory') {
+            $('[data-action="first"]').hide();
+        }
+        else{
+            $('[data-action="first"]').show();
+        }
     });
 
     // If the document is clicked somewhere
