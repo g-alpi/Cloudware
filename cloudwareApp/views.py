@@ -4,7 +4,7 @@ from time import process_time_ns
 from unicodedata import name
 from webbrowser import get
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_GET
 from django.views.decorators.csrf import csrf_exempt
@@ -185,9 +185,12 @@ def normalize_path(path):
 def file_manager(request):
     directories = Directory.objects.filter(owner = request.user, parent = None)
     files = File.objects.filter(owner = request.user , parent = None)
+    possibleErrors = ['emailError']
+    shareErrors = checkErrors(request, possibleErrors)
     return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,
+        "shareErrors": shareErrors,
     })
     
 @login_required
@@ -343,20 +346,29 @@ def shareFile(request, fileId):
     userEmail = request.user.email
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
+    emailError = 'null'
+    success = 'null'
     for email in emails:
-        if (not validateEmail(email) or email == userEmail):
+        if (not validateEmail(email)):
             emailsRejected.append(email)
+            emailError = 'The entered email is not valid'
+        elif email == userEmail:
+            emailError = 'The entered email is the same as your email'
         else:
             try:
                 newShareFile(email, fileToShare)
+                success = 'The file was shared successfully'
             except:
                 emailsRejected.append(email)
-    return redirect("cloud:upload")
+                emailError = 'The entered email already has the shared file'
+    return JsonResponse({'emailError': emailError, 'success': success})
+
 
 def newShareFile(userEmail, fileToShare):
     user = User.objects.get(email = userEmail)
     newShareFile = SharedFile(file = fileToShare, user = user)
     newShareFile.save()
+
 
 @require_POST
 @csrf_exempt
@@ -451,7 +463,6 @@ def validate_signup(request):
 
 def validateRegisterUsername(request, keyName, usernameKey = 'username'):
     usernameExist = User.objects.filter(username=request.POST[usernameKey]).exists()
-    print("ola")
     if usernameExist:
         request.session[keyName] = 'Username already exists'
         return True
