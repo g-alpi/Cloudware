@@ -36,7 +36,7 @@ function create_directory() {
 }
 
 function create_directory_call(){
-    let name = $('#new_file').val();
+    let name = $('#new_directory').val();
     if(validate_directory_name(name)){
         let parent_id = $('#actual_directory').val();
         $.ajax({
@@ -52,7 +52,7 @@ function create_directory_call(){
         });
     }
     else{
-        alert('Invalid directory name');
+        $('#new_directory').before('<div class="alert alert-danger alert-dismissible fade show" role="alert">Enter a name without /, \\, or *<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
     }
 }
 function validate_directory_name(name){
