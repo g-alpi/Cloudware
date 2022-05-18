@@ -138,7 +138,8 @@ def delete_directory(request):
     delete_directory_local(directory)
     directory.delete()
     
-    return redirect("cloud:upload")
+    actual_url = request.META.get('HTTP_REFERER')
+    return redirect(actual_url)
 
 def delete_directory_local(directory):
     if directory.parent == None:
@@ -405,9 +406,9 @@ def validateEmail(possibleEmail):
     return False
 
 
-
-
 def login_view(request):
+    if not request.user.is_anonymous:
+        return redirect("cloud:cloudware_app")
     return render(request, 'login.html')
 
 def logout_view(request):
@@ -426,6 +427,8 @@ def authenticate_view(request):
         return redirect('cloud:login')
 
 def signup(request):
+    if not request.user.is_anonymous:
+        return redirect("cloud:cloudware_app")
     possibleErrors = ['nameError', 'emailError', 'passwordError']
     signupErrors = checkErrors(request, possibleErrors)
     return render(request, 'signup.html', signupErrors)

@@ -5,8 +5,16 @@ $(document).ready(function () {
     right_click_edit_resources();
     event_click_interact_icons();
     event_click_shared_files();
-
+    click_outside_file_form();
+    hide_modal_app();
 });
+
+function hide_modal_app(){
+    $('.dark-background').click(function (e) {
+        $('.form-container').hide();
+        $('.dark-background').hide();
+    });
+}
 
 function directory_redidect(){
     $('[data-type="directory"] p, [data-type="directory"] i').click(function (e) { 
@@ -20,7 +28,6 @@ function directory_redidect(){
             }
         });
     });
-
 }
 
 
@@ -65,7 +72,7 @@ function validate_directory_name(name){
 
 function create_file() {
     form_file_toogle();
-    click_outside_file_form();
+
 }
 
 function share_source(source_pk,source_type) {
@@ -118,7 +125,12 @@ function event_click_interact_icons() {
                 create_file();
                 break;
             case 'remove-file':
-                delete_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                if($(".active").length === 1 && $('.active').attr('data-type')=='file'){
+                    delete_confirmation($('.active').attr('data-id'),$(".active").attr("data-name"), $('.active').attr('data-type'));
+                }
+                else{
+                    alert('You have to select a file');
+                }
                 break;
             case 'share-file':
                 if($('.active').attr('data-type')=='file'){
@@ -132,7 +144,12 @@ function event_click_interact_icons() {
                 create_directory();
                 break;
             case 'remove-directory':
-                delete_source($('.active').attr('data-id'),$('.active').attr('data-type'));
+                if($(".active").length === 1 && $('.active').attr('data-type') == 'directory'){
+                    delete_confirmation($('.active').attr('data-id'),$(".active").attr("data-name"), $('.active').attr('data-type'));
+                }
+                else{
+                    alert("you have to select a directory")
+                }
                 break;
             case 'share-directory':
                 if ($('.active').attr('data-type') == 'directory') {
@@ -185,7 +202,6 @@ function delete_source(source_pk,source_type) {
             id: source_pk,
         },
         success: function(response){
-            console.log(response);
             location.reload();
         }
         
@@ -347,10 +363,18 @@ function right_click_edit_resources() {
             case "first": download_file(source_pk); break;
             case "second": edit_source_name(source_pk,source_name,source_type); break;
             case "third": share_source(source_pk,source_type); break;
-            case "fourth": delete_source(source_pk,source_type); break;
+            case "fourth": delete_confirmation(source_pk, source_name, source_type); break;
         }
 
         // Hide it AFTER the action was triggered
         $(".file-menu").hide(100);
     });
 }   
+
+function delete_confirmation(source_pk, source_name, source_type) {
+    $(".form-delete-container").show();
+    $(".dark-background").show();
+    $("#delete-form p").text("Are you sure you want to delete " + source_name + "?");
+    $("#resource_id").val(source_pk);
+    $("#delete-form").attr("action", "http://"+window.location.host+"/delete_"+source_type);
+}

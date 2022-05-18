@@ -3,7 +3,7 @@
 
 {% block body %}
 <div class="bg-secondary-color">
-    {% include 'template_parts/breadcrumbs.html' %}
+    {% include 'template_parts/breadcrumbs-share.html' %}
 </div> 
 <div class="file-manager-background d-flex flex-grow-1  container-fluid ">
         <div class="row flex-grow-1">
@@ -30,6 +30,13 @@
                                 <p class="resource-name">{{ i.filename}}{{i.extension}}</p>
                             </div>
                         {% endfor %}
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                     {% if messages %}
                         <ul class="messages">
