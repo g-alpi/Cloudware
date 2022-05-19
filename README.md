@@ -27,6 +27,10 @@ For every week we started a new project emulating a sprint:
 
 ![image](https://user-images.githubusercontent.com/73992493/169298016-c5c67e54-5c16-489e-aedd-5255c51d02cf.png)
 
+## Color Pallete ##
+
+![image](https://user-images.githubusercontent.com/73992493/169308868-062af9a0-97c1-4fe0-ac56-fa3920bfa48b.png)
+
 ## Wireframes ##
 We used [Figma](https://www.figma.com/) to develop a wireframe that we could follow:
 
