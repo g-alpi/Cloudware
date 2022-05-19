@@ -66,8 +66,8 @@ def upload_file(request):
         else:
             messages.error(request, 'The path is too long, revise your folders')
             return redirect('cloud:get_directory', parent_id)
-        
-    return redirect("cloud:cloudware_app")
+    actual_url = request.META.get('HTTP_REFERER')
+    return redirect(actual_url)
 
 def save_new_file(uploaded_file, owner,parent = None):  
     document = File(
