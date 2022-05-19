@@ -39,17 +39,54 @@ We used [Figma](https://www.figma.com/) to develop a wireframe that we could fol
 ## Web Page ##
 ### Landing Page ###
 In the landing page we though of made the typical web that tells about the product we're offering:
+
+![image](https://user-images.githubusercontent.com/73992493/169299574-6ca70eaf-6d08-4416-9f30-19ac707c9474.png)
+
 ### Register and Login Pages ##
 In those pages we have a form with validations that guides our users to use the application:
+
+![image](https://user-images.githubusercontent.com/73992493/169299820-82d32430-d989-4752-b7c4-fef328c33284.png)
+
+![image](https://user-images.githubusercontent.com/73992493/169299997-38985e8a-a07d-4e58-b6c8-65992387b12c.png)
+
+![image](https://user-images.githubusercontent.com/73992493/169300066-d4063af3-5546-4f7d-a42f-a99126d2373b.png)
+
 ### Profile Page ###
 In this page the user can change many options of their profile, or even delete their account:
+
+![image](https://user-images.githubusercontent.com/73992493/169300331-4918aae0-1b60-4fb2-a60c-6d644aa2b445.png)
+
+![image](https://user-images.githubusercontent.com/73992493/169300384-ca4542f9-ce79-442c-b38e-5092d32062f7.png)
+
 ### Application Page ###
-This is the most important page of our project, here we have a screen with all the documents that the user uploaded an can download: \
-The Shared Files, and the options to upload, share or delete resources: \
-The user can click with the right click to open a contextual menu to make all operations that are in the buttons, so he can select the way he wants to use our application: \
-For everly option will open a modal box to manage the appropiate operation: \
-And will guide the user like the register and login pages: \
+This is the most important page of our project, here we have a screen with all the documents that the user uploaded an can download:
+
+![image](https://user-images.githubusercontent.com/73992493/169300561-67754fdc-afde-4e81-997b-a4b80738a0fa.png)
+
+![image](https://user-images.githubusercontent.com/73992493/169300619-878d63c0-d094-4cc5-9a93-2bf6231276e4.png)
+
+The Shared Files, and the options to upload, share or delete resources:
+
+![image](https://user-images.githubusercontent.com/73992493/169300878-a1cbb7a2-0aff-42e5-ab29-6400aaf69b73.png)
+
+The user can click with the right click to open a contextual menu to make all operations that are in the buttons, so he can select the way he wants to use our application:
+
+![image](https://user-images.githubusercontent.com/73992493/169300744-30e9de67-49c1-4a33-ace4-1cf0a005cb21.png)
+
+![image](https://user-images.githubusercontent.com/73992493/169301056-cb3cbb1c-fea7-4de7-b5c3-46b031eb2717.png)
+
+For everly option will open a modal box to manage the appropiate operation:
+
+![image](https://user-images.githubusercontent.com/73992493/169300947-79452474-2bef-4772-8052-9131a21c1aef.png)
+
+And will guide the user like the register and login pages:
+
+![image](https://user-images.githubusercontent.com/73992493/169301157-9fd309b1-6737-4913-8c94-f73d75c6fccd.png)
+
 The Share Files Page we can see all the files that have been shared with us with a similar use of the Cloudware application page:
+
+![image](https://user-images.githubusercontent.com/73992493/169301860-90919145-a2db-4dda-beaa-0fa5c0568bd9.png)
+
 ## How to Install ##
 :snake: Install python3:
 ```
