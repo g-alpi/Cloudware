@@ -353,20 +353,20 @@ def shareFile(request, fileId):
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
     emailError = 'null'
-    success = 'null'
+    success = 'The file was shared successfully with: '
     for email in emails:
         if (not validateEmail(email)):
             emailsRejected.append(email)
-            emailError = 'The entered email is not valid'
+            emailError = email + ' is not valid'
         elif email == userEmail:
-            emailError = 'The entered email is the same as your email'
+            emailError = email + ' is the same as your email'
         else:
             try:
                 newShareFile(email, fileToShare)
-                success = 'The file was shared successfully'
+                success += ' The file was shared successfully with ' + email
             except:
                 emailsRejected.append(email)
-                emailError = 'The entered email already has the shared file'
+                emailError = email + ' already has the shared file'
     return JsonResponse({'emailError': emailError, 'success': success})
 
 
@@ -383,15 +383,22 @@ def share_directory(request, directoryId):
     userEmail = request.user.email
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
+    emailError = 'null'
+    success = 'The file was shared successfully with: '
     for email in emails:
-        if (not validateEmail(email) or email == userEmail):
+        if (not validateEmail(email) ):
             emailsRejected.append(email)
+            emailError = email + ' is not valid'
+        elif email == userEmail:
+            emailError = email + ' is the same as your email'
         else:
             try:
                 newShareDirectory(email, directory)
+                success += ' ' + email
             except:
                 emailsRejected.append(email)
-    return redirect("cloud:upload")
+                emailError = email + ' already has the shared file'
+    return JsonResponse({'emailError': emailError, 'success': success})
 
 def newShareDirectory(userEmail, directory):
     user = User.objects.get(email = userEmail)
