@@ -91,8 +91,8 @@ The Share Files Page we can see all the files that have been shared with us with
 
 ![image](https://user-images.githubusercontent.com/73992493/169301860-90919145-a2db-4dda-beaa-0fa5c0568bd9.png)
 
-## How to Install ##
-:snake: Install python3:
+## How to Install in Ubuntu ##
+:snake: Install python3 :
 ```
 sudo apt install python3
 ```
