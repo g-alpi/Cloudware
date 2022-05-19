@@ -11,6 +11,7 @@
         <h1 class="text-center fs-5 fw-bold mb-5">Welcome to the Cloudware</h1>
         {% if messages %}
         {% for message in messages %}
+            {% if message.tags == 'error' %}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -21,6 +22,7 @@
                 {{ message }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
+            {% endif %}
         {% endfor %}
         {% endif %}
         <form action="{% url 'cloud:authenticate' %}" method="post" class="d-flex flex-column mb-5">

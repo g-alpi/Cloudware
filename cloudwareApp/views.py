@@ -43,6 +43,10 @@ def upload_file(request):
     owner = get_object_or_404(User, pk = request.user.pk)
     parent_id = request.POST.get('parent_id')
 
+    if uploaded_file is None:
+        request.session["error"] = "Please, upload a file"
+        return redirect("cloud:cloudware_app")
+
     if parent_id == None:
         path = os.path.join(settings.MEDIA_ROOT, 'uploaded_files', str(owner), uploaded_file.name)
         
@@ -82,9 +86,6 @@ def downloadFile(request, fileId):
     file = authorizeFileAccess(request.user, fileId)
     filePath = str(file.uploaded_file)
     fileName = os.path.basename(file.uploaded_file.name)
-    print(fileName)
-    print(file.owner)
-    print(request.user)
     try:
         return obtainFile(filePath, fileName)
     except FileNotFoundError:
@@ -93,7 +94,6 @@ def downloadFile(request, fileId):
 def authorizeFileAccess(user, fileId):
     file = get_object_or_404(File, pk = fileId)
     if user == file.owner:
-        print("True")
         return file
     sharedFile = get_object_or_404(SharedFile, file = file, user = user)
     return sharedFile.file
@@ -188,6 +188,9 @@ def file_manager(request):
     files = File.objects.filter(owner = request.user , parent = None)
     possibleErrors = ['emailError']
     shareErrors = checkErrors(request, possibleErrors)
+    if "error" in request.session:
+        messages.error(request, request.session["error"]) 
+        request.session.pop("error")
     return render(request, "cloudware_app.html", context = {
         "files": files,
         "directories": directories,
@@ -421,6 +424,9 @@ def validateEmail(possibleEmail):
 def login_view(request):
     if not request.user.is_anonymous:
         return redirect("cloud:cloudware_app")
+    if "account_created" in request.session:
+        messages.success(request, request.session["account_created"])
+        request.session.pop("account_created")
     return render(request, 'login.html')
 
 def logout_view(request):
@@ -464,6 +470,7 @@ def validate_signup(request):
     newUser = User(username = request.POST['username'], email=request.POST['email'])
     newUser.set_password(request.POST['password'])
     newUser.save()
+    request.session["account_created"] = "Account created successfully!"
     return redirect('cloud:login')
 
 def validateRegisterUsername(request, keyName, usernameKey = 'username'):
@@ -506,6 +513,8 @@ def validateRegisterPassword(request, keyName, passwordKey = 'password'):
 def profile(request):
     possibleErrors = ['updateError']
     updateErrors = checkErrors(request, possibleErrors)
+    if "success" in request.session:
+        messages.success(request, request.session["success"])
     return render(request, 'profile.html', updateErrors)
 
 @login_required
@@ -519,6 +528,7 @@ def update_username(request):
         userToUpdate.username = request.POST["newUsername"]
         os.rename(os.path.join('media','uploaded_files',str(request.user)),os.path.join('media','uploaded_files',userToUpdate.username))
         userToUpdate.save()
+        request.session['success'] = 'Username Updated Successfully'
         return redirect('cloud:profile')
     
     request.session['updateError'] = 'Wrong Password'
@@ -534,6 +544,7 @@ def update_email(request):
     if userToUpdate is not None:
         userToUpdate.email = request.POST["newEmail"]
         userToUpdate.save()
+        request.session['success'] = 'Email Updated Successfully'
         return redirect('cloud:profile')
     
     request.session['updateError'] = 'Wrong Password'
@@ -550,6 +561,7 @@ def update_password(request):
         userToUpdate.set_password(request.POST['newPassword'])
         userToUpdate.save()
         update_session_auth_hash(request, userToUpdate)
+        request.session['success'] = 'Password Updated Successfully'
         return redirect('cloud:profile')
     
     request.session['updateError'] = 'Wrong Password'
