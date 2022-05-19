@@ -108,6 +108,10 @@ source [path-to-new-virtual-environment]/bin/activate
 ```
 pip install -r requirements.txt
 ```
+:ok_hand: Add the migrations:
+```
+./manage.py migrate
+```
 :running: Run the application:
 ```
 ./manage.py runserver
