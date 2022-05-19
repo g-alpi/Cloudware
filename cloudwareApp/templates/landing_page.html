@@ -1,0 +1,60 @@
+{% extends 'base_templates/base_template_complete.html' %}
+{% block body %}
+<section class="landing-welcome d-flex flex-column justify-content-center text-center text-white fs-3 position-relative">
+    <div class="position-relative">
+        <h1>Welcome to your warehouse in the cloud</h1>
+        <p>Welcome to cloudware</p>
+        <a href="#web-information-target" class="text-white position-absolute"><i class="fa-solid fa-angle-down"></i></a>
+    </div>
+    <div id="web-information-target" class="spacer-100px position-absolute bottom-0"></div>
+</section>
+<section id="web-information" class="container-fluid py-5">
+    <div class="row">
+        <div class="col-10 mx-auto my-5 p-5 bg-primary-color-gradient text-white rounded-3">
+            <div class="container-fluid">
+                <div class="row text-center">
+                    <div class="col-4 px-3">
+                        <i class="fa-solid fa-arrows-rotate fs-1 mb-3"></i>
+                        <h2 class="mb-4">Save</h2>
+                        <p>Save all your files securely, keep them up to date and access them from any device.</p>
+                    </div>
+                    <div class="col-4 px-3">
+                        <i class="fa-solid fa-face-laugh-beam fs-1 mb-3"></i>
+                        <h2 class="mb-4">Share</h2>
+                        <p>Share the documents you choose with the people you choose. Fast and easy.</p>
+                    </div>
+                    <div class="col-4 px-3">
+                        <i class="fa-solid fa-folder-plus fs-1 mb-3"></i>
+                        <h2 class="mb-4">Organize</h2>
+                        <p>Get organized with our fully customized folder system. Save, edit or delete sources.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container-fluid my-5">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6 bg-database rounded-3">
+                    </div>
+                    <div class="col-6  p-5 d-flex flex-column justify-content-center">
+                        <h2>CloudWare</h2>
+                        <p>From Cloudware we care about storing files easily, securely and quickly. That's why we provide a totally free Cloud service, where the user can upload and organize their documents in the cloud, so they can access them from any device. We know that sharing documents is essential, so we have added a feature to choose the users you want to have access.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="container-fluid my-5">
+    <div class="row">
+        <div class="col-4 mx-auto d-flex justify-content-center">
+            <a href="{% url 'cloud:signup' %}" class="btn blue-btn text-uppercase text-white py-4 px-5">Join Now!</a>
+        </div>
+    </div>
+</section>
+<div class="mb-5"></div>
+{% endblock %}

@@ -1,0 +1,220 @@
+{% extends 'base_templates/base_template_header.html' %}
+{% load static %}
+{% block body %}
+<div class="profile-background d-flex flex-grow-1 justify-content-center align-items-center position-relative">
+    <div class="options-form p-5 col-8">
+        <div class="d-flex justify-content-center">
+            <div class="circle-logo mb-3">
+                <img src="{% static 'cloudwareApp\cloudware_logo.png' %}" alt="Cloudware Logo">
+            </div>
+        </div>
+        <h1 class="text-center fs-5 fw-bold mb-5">Profile</h1>
+        {% if updateError %}
+        <div class="row justify-content-center align-items-center">
+            <div class="col-10 alert alert-danger alert-dismissible fade show" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </symbol>
+                </svg>
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                {{ updateError }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center align-items-center py-3">
+            <div class="col-2">
+                <p class="mb-0 fw-bold">
+                    Username:
+                </p>
+            </div>
+            <div class="col-6">
+                <p class="mb-0">
+                    {{ user.username }}
+                </p>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <button id="edit-username" class="btn blue-btn text-white">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="row justify-content-center align-items-center py-3">
+            <div class="col-2">
+                <p class="mb-0 fw-bold">
+                    E-mail:
+                </p>
+            </div>
+            <div class="col-6">
+                <p class="mb-0">
+                    {{ user.email }}
+                </p>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <button id="edit-email" class="btn blue-btn text-white">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="row justify-content-center align-items-center py-3">
+            <div class="col-2">
+                <p class="mb-0 fw-bold">
+                    Password:
+                </p>
+            </div>
+            <div class="col-6">
+                <p class="mb-0">
+                    ********
+                </p>
+            </div>
+            <div class="col-2 d-flex justify-content-end">
+                <button id="edit-password" class="btn blue-btn text-white">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>
+            </div>
+        </div>
+        <hr class="my-3">
+        <div class="row justify-content-center mb-3">
+            <div class="col-10">
+                <button id="delete-account" class="btn btn-danger">Delete Account</button>
+            </div>
+        </div>
+    </div>
+    <div id="modal-transparent-background" class="position-absolute bg-semi-transparent-black"></div>
+    <div id="modify-username" class="position-absolute modify-form ">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Username</h2>
+                    <form action="{% url 'cloud:update_username' %}" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="username">
+                                    <i class="fa-solid fa-user"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="New Username" aria-label="NewUsername" id="newUsername" name="newUsername"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-modify-username">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-username" name="password"/>
+                        </div>
+                        <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-email" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Email</h2>
+                    <form action="{% url 'cloud:update_email' %}" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="newEmail">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="New Email" aria-label="NewEmail" id="newEmail" name="newEmail"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-modify-email">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-email" name="password"/>
+                        </div>
+                        <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modify-password" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Update Password</h2>
+                    <form action="{% url 'cloud:update_password' %}" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="newPassword">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="New Password" aria-label="NewPassword" id="newPassword" name="newPassword"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="newPasswordConfirmation">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="New Password Confirmation" aria-label="NewPasswordConfirmation" id="newPasswordConfirmation" name="newPasswordConfirmation"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-modify-password">
+                                    <i class="fa-solid fa-lock"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-modify-password" name="password"/>
+                        </div>
+                        <button type="submit" class="blue-btn py-2 text-uppercase">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="delete-account-modal" class="position-absolute modify-form">
+        <div class="container-fluid p-5 bg-secondary-color rounded-3">
+            <div class="row">
+                <div class="col">
+                    <h2 class="fs-4 mb-4 mt-4 text-uppercase text-center">Are you sure you want to delete your account?</h2>
+                    <form action="{% url 'cloud:delete_account' %}" method="post" class="d-flex flex-column mb-5">
+                        {% csrf_token %}
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="username-delete-account">
+                                    <i class="fa-solid fa-lock-open"></i>
+                                </label>
+                            </span>
+                            <input type="text" class="form-control" placeholder="Username" aria-label="Username" id="username-delete-account" name="username"/>
+                        </div>
+                        <div class="image-form mb-4">
+                            <span>
+                                <label for="password-delete-account">
+                                    <i class="fa-solid fa-user"></i>
+                                </label>
+                            </span>
+                            <input type="password" class="form-control" placeholder="Password" aria-label="Password" id="password-delete-account" name="password"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <button id="dismiss-delete-account" class="blue-btn py-2 text-uppercase w-100">I don't want to Delete my Account</button>
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-danger py-2 text-uppercase w-100 h-100">Delete Account</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'cloudwareApp/profile.js' %}"></script>
+{% endblock %}

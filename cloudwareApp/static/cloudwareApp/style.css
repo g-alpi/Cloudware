@@ -1,0 +1,450 @@
+:root
+{
+    --main-color: #094C93;
+    --light-main-color: #0C73B2;
+    --secondary-color: #EAE1C8;
+    --folder-color: #EAE1C8;
+    --light-color: #ffffff;
+    --hover-light-color: #EAE1C8;
+    --upload-buttons-color: #429B46;
+    --delete-buttons-color: #dc3545;
+}
+body
+{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.spacer-100px {
+    height: 100px;
+}
+
+ul.dropdown-menu 
+{
+    background-image: linear-gradient(var(--light-main-color), var(--main-color));
+}
+
+ul.dropdown-menu a
+{
+    transition: background-color 500ms
+}
+
+ul.dropdown-menu a:hover 
+{
+    background-color: var(--light-main-color);
+    transition: background-color 500ms
+}
+
+.bg-primary-color 
+{
+    background-color: var(--main-color) !important;
+}
+.bg-primary-color-gradient
+{
+    background-image: linear-gradient(var(--main-color), var(--light-main-color));
+}
+.bg-secondary-color
+{
+    background-color: var(--secondary-color) !important;
+}
+.bg-database
+{
+    background-image: url("database.jpg");
+    background-size: cover;
+    background-position: center center;
+    min-height: 600px;
+}
+a 
+{
+    color: var(--main-color);
+    transition: color 500ms;
+}
+a:hover
+{
+    color: var(--light-main-color);
+    transition: color 500ms;
+}
+a.active 
+{
+    border:none !important;
+}
+.bg-semi-transparent-black
+{
+    background-color: black;
+    opacity: 0.5;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+.change-function{
+    color: black;
+    background-color: transparent;
+    transition: color 500ms, background-color 500ms;
+    border-radius: 0.3rem;
+}
+
+.change-function:hover{
+    color: white;
+    background-color: var(--main-color);
+    transition: color 500ms, background-color 500ms;
+}
+
+.modify-form
+{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    display: none;
+}
+
+hr 
+{
+    width: 40%;
+    margin: 0 auto;
+}
+
+header, footer
+{
+    min-height: 100px;
+    background-image: linear-gradient(var(--main-color), var(--light-main-color));
+    color: var(--light-color);
+}
+
+footer
+{
+    background-image: linear-gradient(var(--light-main-color), var(--main-color));
+}
+
+header a, footer a
+{
+    color: var(--light-color) !important;
+    transition: color 500ms;
+}
+header a:hover, footer a:hover
+{
+    color: var(--hover-light-color) !important;
+}
+.circle-logo 
+{
+    padding: 7px;
+    border-radius: 100%;
+    background-color: var(--light-color);
+    transition: background-color 500ms;
+}
+header a:hover .circle-logo
+{
+    background-color: var(--hover-light-color);
+}
+.cloudware-logo-text
+{
+    font-family: 'Revalia', cursive;
+}
+.landing-welcome
+{
+    height: calc(100vh - 100px);
+    background: url("landing_background.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.landing-welcome a 
+{
+    font-size: 48px;
+}
+
+.login-background 
+{
+    background: url("login_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.signup-background 
+{
+    background: url("signup_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.profile-background
+{
+    background: url("profile_background.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
+.login-form, .signup-form, .options-form
+{
+    height: 80%;
+    background-color: var(--secondary-color);
+    border-radius: 25px;
+}
+.blue-btn
+{
+    background-color: var(--main-color);
+    color: var(--light-color);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 500ms;
+}
+
+.blue-btn:hover
+{
+    background-color: var(--light-main-color);
+    transition: background-color 500ms;
+}
+
+.image-form
+{
+    position: relative;
+}
+.image-form span
+{
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translate(0%, -50%);
+}
+.form-control
+{
+    border: none;
+    border-radius: 25px;
+    height: 60px;
+    padding-left: 50px;
+}
+
+
+.box-shadow{
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.25);
+}
+
+.file-manager-background 
+{
+    background: var(--secondary-color);
+    background-size: cover;
+}
+
+.resources:focus > i
+{
+    color: var(--hover-light-color);
+    transition: color 400ms;
+}
+
+.info-resource
+{
+    background-color: var(--light-main-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+}
+
+.share-resource
+{
+    background-color: var(--main-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
+
+.add-resource
+{
+    background-color: var(--upload-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
+
+.remove-resource
+{
+    background-color: var(--delete-buttons-color);
+    transition: background-color 500ms;
+    color: var(--light-color);
+    cursor: pointer;
+    display: none;
+}
+
+.resources-management:hover .add-resource, .resources-management:hover .remove-resource, .resources-management:hover .share-resource
+{
+    display: block;
+}
+
+.rounded-semiround 
+{
+    border-radius: 3.3rem!important
+}
+
+.fa-file
+{
+    width: 32px;
+    text-align: center;
+}
+
+.resources
+{
+    width: 10rem;
+}
+
+.resource-name
+{
+    word-break: break-all;
+}
+
+.dark-background
+{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.5;
+}
+
+.form-file-container,.form-directory-container, .form-share-container, .form-delete-container
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+}
+
+.form-file-container,.form-directory-container,.form-share-container, .form-delete-container, .dark-background
+{
+    display: none ;
+}
+
+.active 
+{
+    border: var(--main-color) dotted 1px;
+}
+.active > i
+{
+    color: lightblue;
+}
+
+
+
+.upload-menu, .file-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+.shared_files,.my_files{
+    cursor: pointer;
+}
+
+
+/* Each of the items in the list */
+.upload-menu li, .file-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+    user-select: none;
+}
+
+.upload-menu li:hover , .file-menu li:hover {
+    background-color: #DEF;
+}
+
+.folder 
+{
+    color: var(--folder-color);
+}
+
+.resources-grid {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.no-bullet {
+    list-style-type: none;
+}
+
+.breadcrumbs li:last-child > a {
+    color: black;
+    pointer-events: none;
+    font-weight: bold;
+}
+
+.user-messages{
+    z-index: 2000;
+    top: 16.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fa-file-standard-file::before{
+    content: "\f15b";
+}
+
+.fa-file-jpg::before,
+.fa-file-jpeg::before,
+.fa-file-jfif::before, 
+.fa-file-pjpeg::before,
+.fa-file-pjp::before, 
+.fa-file-png::before,
+.fa-file-gif::before
+{
+    content:"\f1c5";
+}
+
+.fa-file-mp3::before,
+.fa-file-m4a::before,
+.fa-file-ogg::before,
+.fa-file-oga::before,
+.fa-file-mogg::before,
+.fa-file-wav::before,
+.fa-file-flac::before
+{
+    content: "\f1c7";
+}
+.fa-file-csv::before
+{
+    content: "\f6dd";
+}
+.fa-file-xlsx::before,
+.fa-file-xlsm::before,
+.fa-file-xlsb::before,
+.fa-file-xltx::before
+{
+    content: "\f1c3";
+}
+
+.fa-file-txt::before
+{
+    content: "\f15c";
+}
+
+.fa-file-pdf::before
+{
+    content: "\f1c1";
+}
+
+.fa-file-doc::before,
+.fa-file-docx::before,
+.fa-file-docm::before,
+.fa-file-dot::before    
+{
+    content: "\f1c2";
+}
+
+.fa-file-mp4::before,
+.fa-file-mov::before,
+.fa-file-wmv::before,
+.fa-file-flv::before,
+.fa-file-avi::before,
+.fa-file-avchd::before,
+.fa-file-webm::before,
+.fa-file-mkv::before
+{
+    content: "\f1c8";
+}
