@@ -375,6 +375,13 @@ header a:hover .circle-logo
     font-weight: bold;
 }
 
+.user-messages{
+    z-index: 2000;
+    top: 16.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .fa-file-standard-file::before{
     content: "\f15b";
 }
