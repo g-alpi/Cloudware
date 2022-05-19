@@ -250,10 +250,10 @@ function link_share_sorces(source_pk,source_type) {
             }
             else{
                 $('#share-emails').before('<div class="alert alert-success alert-dismissible fade show" role="alert">'+response['success']+'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
-                // setTimeout(function(){
-                //     $('.alert').alert('close');
-                //     form_share_toogle();
-                // }, 2000);
+                setTimeout(function(){
+                    $('.alert').alert('close');
+                    form_share_toogle();
+                }, 2000);
             }
         }
     });

@@ -122,7 +122,8 @@ def delete_file(request):
     delete_file_local(file)
     file.delete()
     
-    return redirect("cloud:upload")
+    actual_url = request.META.get('HTTP_REFERER')
+    return redirect(actual_url)
 
 def delete_file_local(file):
     filename = os.path.split(str(file.uploaded_file))[-1]
@@ -477,6 +478,7 @@ def validate_signup(request):
     newUser = User(username = request.POST['username'], email=request.POST['email'])
     newUser.set_password(request.POST['password'])
     newUser.save()
+    check_user_directory(newUser)
     request.session["account_created"] = "Account created successfully!"
     return redirect('cloud:login')
 
