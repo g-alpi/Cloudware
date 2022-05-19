@@ -70,6 +70,7 @@ class SharedDirectory (models.Model):
 
     class Meta:
         verbose_name_plural = "Shared Directories"
+        unique_together = ('user', 'directory',)
 
     def __str__(self):
         return self.directory.name + ' -> ' + self.user.username

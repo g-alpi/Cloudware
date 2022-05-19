@@ -353,20 +353,20 @@ def shareFile(request, fileId):
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
     emailError = 'null'
-    success = 'The file was shared successfully with: '
+    success = 'null'
     for email in emails:
         if (not validateEmail(email)):
             emailsRejected.append(email)
-            emailError = email + ' is not valid'
+            emailError = email + 'The email entered is not valid'
         elif email == userEmail:
-            emailError = email + ' is the same as your email'
+            emailError ='The email entered is the same as your email'
         else:
             try:
                 newShareFile(email, fileToShare)
-                success += ' The file was shared successfully with ' + email
+                success = ' The file was shared successfully'
             except:
                 emailsRejected.append(email)
-                emailError = email + ' already has the shared file'
+                emailError = 'The email entered already has the shared file'
     return JsonResponse({'emailError': emailError, 'success': success})
 
 
@@ -384,20 +384,20 @@ def share_directory(request, directoryId):
     emails = re.split(' , |, |,', request.POST["mails"])
     emailsRejected = []
     emailError = 'null'
-    success = 'The file was shared successfully with: '
+    success = 'null'
     for email in emails:
         if (not validateEmail(email) ):
             emailsRejected.append(email)
-            emailError = email + ' is not valid'
+            emailError = 'The email entered is not valid'
         elif email == userEmail:
-            emailError = email + ' is the same as your email'
+            emailError = 'The email entered is the same as your email'
         else:
             try:
                 newShareDirectory(email, directory)
-                success += ' ' + email
+                success = ' The directory was shared successfully  '
             except:
                 emailsRejected.append(email)
-                emailError = email + ' already has the shared file'
+                emailError = 'The email entered already has the shared directory'
     return JsonResponse({'emailError': emailError, 'success': success})
 
 def newShareDirectory(userEmail, directory):
